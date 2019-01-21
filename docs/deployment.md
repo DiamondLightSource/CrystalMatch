@@ -35,17 +35,17 @@ The external release procedure is not required and does not affect the internal 
     3. To test the released script do:
     ```
     virtualenv -p /dls_sw/prod/tools/RHEL6-x86_64/Python/2-7-3/prefix/bin/dls-python venv_cmd --system-site-packages
-    source venv/bin/activate
+    source venv_cmd/bin/activate
     pip install --upgrade pip setuptools
     pip install CrystalMatch
     CrystalMatch image.jpg focusing_dict 1800,1690 --scale 1.0:1.575
     ```
 6. Create a new release on github and add the whl and tar.gz files - the release will be tagged
 7. Do internal release for dls-python:
-    1. Add a tag with - instead of . in the version and push ot to gitolite_origin, for example:
+    1. Add a tag with - instead of . in the version and push ot to gitlab_new, for example:
     ```
     git tag 1-0-0
-    git push gitolite_origin 1-0-0
+    git push gitlab_new 1-0-0
     ```
     2. Run release script, wait for the build to finish and configure the path:
     ```
