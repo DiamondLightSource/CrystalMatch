@@ -17,7 +17,7 @@ The external release procedure is not required and does not affect the internal 
 
 1. Bump the version number
 2. Update release notes and dev notes
-3. Push the changes to gitolite (git push gitolite_origin master) and github origins
+3. Push the changes to gitlab (git push gitlab_new master) and github origins (origin)
 4. Make sure that all unit tests pass on Travis and run system test locally and check that they pass
 5. External release on pypi:
     1. activate your virtual environment (source venv/bin/activate):
