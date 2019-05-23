@@ -12,7 +12,7 @@ class CrystalMatcher:
     DEFAULT_WIDTH = 200
     DEFAULT_HEIGHT = 400
     DEFAULT_VERTICAL_SHIFT = 0.75
-    DEFAULT_Z_LEVEL_REGION_SIZE = 30
+    DEFAULT_Z_LEVEL_REGION_SIZE = 80
 
     def __init__(self, aligned_images, detector_config, crystal_config=None):
         self._perform_poi_analysis = True

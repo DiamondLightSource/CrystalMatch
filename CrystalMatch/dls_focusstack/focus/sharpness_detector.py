@@ -28,6 +28,7 @@ class SharpnessDetector(object):
         max_fft_value_index = ffts.index(max_fft_value)
         best_fft_img = self.fft_img[max_fft_value_index] # the sequence of images is the same as the sequence of ffts
         best_fft_img_num = best_fft_img.get_image_number()
+        log.info("Best score was %f for %s" % (max_fft_value, best_fft_img.name))
         range = self.find_range(best_fft_img_num)
 
         extra = {'best_fft_val': round(max_fft_value, 4),
