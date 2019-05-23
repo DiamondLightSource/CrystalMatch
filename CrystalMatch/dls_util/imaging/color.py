@@ -1,6 +1,6 @@
 
 from pkg_resources import require
-require("numpy==1.11.1")
+require("numpy>=1.11.1")
 from random import randint
 class Color:
     """ Represents a color stored as an RGB or RGBA value.

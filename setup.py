@@ -38,9 +38,9 @@ setuptools.setup(
 
     entry_points={'console_scripts': ['CrystalMatch = CrystalMatch.dls_imagematch.main_service:main']},  # this makes a script
 
-    install_requires=['numpy==1.11.1', 'scipy==0.19.1', 'pygelf==0.3.1'],
+    install_requires=['numpy>=1.11.1', 'scipy>=0.19.1', 'pygelf>=0.3.1'],
 
-    tests_require=['mock==1.0.1', 'parametrized'],
+    tests_require=['mock>=1.0.1', 'parametrized'],
 
     zip_safe = False
 )

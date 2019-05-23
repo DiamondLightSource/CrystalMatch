@@ -1,8 +1,8 @@
 from pkg_resources import require
-require("pygelf==0.3.1")
-require("numpy==1.11.1")
-require("scipy==0.19.1")
-require("mock==1.0.1")
+require("pygelf>=0.3.1")
+require("numpy>=1.11.1")
+require("scipy>=0.19.1")
+require("mock>=1.0.1")
 
 from unittest import TestCase
 

@@ -1,6 +1,6 @@
 from __future__ import print_function
 from pkg_resources import require
-require("mock==1.0.1")
+require("mock>=1.0.1")
 
 from unittest import TestCase
 
