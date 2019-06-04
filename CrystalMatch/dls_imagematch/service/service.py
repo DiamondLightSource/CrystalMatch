@@ -94,21 +94,25 @@ class CrystalMatch:
         return aligned_images, scaled_formulatrix_points
 
     def _perform_matching(self, aligned_images, selected_points, parser_manager):
-        log = logging.getLogger(".".join([__name__]))
-        log.addFilter(logconfig.ThreadContextFilter())
+
         time_start = time.time()
         matcher = CrystalMatcher(aligned_images, self._config_detector)
         matcher.set_fft_images_to_stack(parser_manager.get_fft_images_to_stack())
         matcher.set_from_crystal_config(self._config_crystal)
 
         crystal_match_results = matcher.match(selected_points)
-        time_end = time.time() - time_start
-        extra = {'matching_time': time_end}
+        self._log_matching_time(time.time() - time_start)
+
+        return crystal_match_results
+
+    @staticmethod
+    def _log_matching_time(time):
+        log = logging.getLogger(".".join([__name__]))
+        log.addFilter(logconfig.ThreadContextFilter())
+        extra = {'matching_time': time}
         log = logging.LoggerAdapter(log, extra)
         log.info("Matching Complete")
         log.debug(extra)
-
-        return crystal_match_results
 
     @staticmethod
     def _log_alignment_status(aligned):
