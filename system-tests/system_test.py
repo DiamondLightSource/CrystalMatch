@@ -113,7 +113,7 @@ class SystemTest(TestCase):
             cmd_line_args = cmd_line_args + " " + self.CONFIG_FLAG + " " + self._active_output_dir
 
         # Run Crystal Matching Algorithm with command line arguments
-        command = "python -m dls_imagematch.main_service " + cmd_line_args
+        command = "python -m CrystalMatch.dls_imagematch.main_service " + cmd_line_args
         with file(self._get_cmd_line_file_path(), "w") as cmd_out_file:
             cmd_out_file.writelines(command)
         stdout_file = file(self._get_std_out_file_path(), "w")
