@@ -105,15 +105,8 @@ class ImageAligner:
             raise ImageAlignmentError("Must set Detector config before performing alignment")
 
     def _get_detector(self):
-        """ Get the selected detector and raise and exception if it is disabled. """
+        """ Get the selected detector. """
         detector = self._align_config.align_detector.value()
-        enabled = self._detector_config.is_detector_enabled(detector)
-        if not enabled:
-            log = logging.getLogger(".".join([__name__, self.__class__.__name__]))
-            log.addFilter(logconfig.ThreadContextFilter())
-            log.error("Cannot perform image alignment as detector '{}' is disabled.".format(detector))
-            raise ImageAlignmentError("Cannot perform image alignment as detector '{}' is disabled.".format(detector))
-
         return detector
 
     def _perform_match(self, detector):

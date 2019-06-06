@@ -2,7 +2,7 @@ from os.path import join
 
 from CrystalMatch.dls_imagematch.feature.detector import DetectorType
 from CrystalMatch.dls_util.config.config import Config
-from CrystalMatch.dls_util.config.item import EnumConfigItem, BoolConfigItem, RangeFloatConfigItem
+from CrystalMatch.dls_util.config.item import EnumConfigItem, BoolConfigItem, RangeFloatConfigItem, StringItem
 
 
 class AlignConfig(Config):

@@ -23,7 +23,6 @@ class Detector:
     """
 
     # Defaults
-    DEFAULT_ENABLED = True
     DEFAULT_DETECTOR = DetectorType.ORB
     DEFAULT_ADAPTATION = AdaptationType.NONE
     DEFAULT_EXTRACTOR = ExtractorType.BRIEF
@@ -34,17 +33,13 @@ class Detector:
         if detector not in DetectorType.LIST_ALL:
             raise FeatureDetectorError("No such feature detector available: " + detector)
 
-        self._enabled = self.DEFAULT_ENABLED
         self._detector = detector
         self._adaptation = self.DEFAULT_ADAPTATION
         self._extractor = self.DEFAULT_EXTRACTOR
         self._normalization = self._default_normalization(detector)
-        self._is_non_free = False
         self._keypoint_limit = self.DEFAULT_KEYPOINT_LIMIT
 
     # -------- ACCESSORS -----------------------
-    def enabled(self):
-        return self._enabled
 
     def detector(self):
         return self._detector
@@ -58,8 +53,6 @@ class Detector:
     def normalization(self):
         return self._normalization
 
-    def is_non_free(self):
-        return self._is_non_free
 
     def keypoint_limit(self):
         return self._keypoint_limit
@@ -68,10 +61,6 @@ class Detector:
         return ExtractorType.distance_factor(self._extractor)
 
     # -------- CONFIGURATION ------------------
-    def set_enabled(self, enabled):
-        """ Determines whether or not the detector will be used. If set to false, attempting to
-        use the detector will yield no results."""
-        self._enabled = enabled
 
     def set_adaptation(self, adaptation):
         if adaptation not in AdaptationType.LIST_ALL:
@@ -88,7 +77,6 @@ class Detector:
         self._keypoint_limit = limit
 
     def set_from_config(self, config):
-        self.set_enabled(config.enabled.value())
         self.set_extractor(config.extractor.value())
         self.set_keypoint_limit(config.keypoint_limit.value())
 
@@ -99,10 +87,6 @@ class Detector:
         various attributes of the feature. By generating descriptors, we can compare the set of features
         on two images and find matches between them.
         """
-        if not self._enabled:
-            logging.info("Detector {} is disabled".format(self._detector))
-            return []
-
         detector = self._create_detector()
         extractor = self._create_extractor()
 
@@ -128,10 +112,8 @@ class Detector:
     @staticmethod
     def _default_normalization(detector):
         """ Keypoint normalization type for the detector method; used for matching. """
-        if detector in [DetectorType.SIFT, DetectorType.SURF]:
-            return cv2.NORM_L2
-        else:
-            return cv2.NORM_HAMMING
+
+        return cv2.NORM_HAMMING
 
     @staticmethod
     def _create_default_detector(detector, adaptation):
