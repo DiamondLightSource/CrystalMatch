@@ -6,7 +6,6 @@ import cv2
 import numpy as np
 
 from CrystalMatch.dls_util.shape import Rectangle, Point
-from CrystalMatch.dls_util.imaging.color import Color
 
 
 class Image:
@@ -59,13 +58,6 @@ class Image:
         image = Image(raw_img)
         image._file = filename
         return image
-
-    @staticmethod
-    def blank(width, height, channels=3, color=Color.black()):
-        """ Return a new empty image of the specified size. """
-        blank = Image(np.full((height, width, channels), 0, np.uint8))
-        blank.draw_rectangle(blank.bounds(), color, thickness=-1)
-        return blank
 
     def popup(self, title='Popup Image', block=True):
         """ Pop up a window to display an image until a key is pressed (blocking)."""
@@ -145,21 +137,6 @@ class Image:
         rotated = cv2.warpAffine(self._img, matrix, (self.width(), self.height()))
         return Image(rotated)
 
-    def rotate_no_clip(self, angle):
-        """Rotate the image about its center point, but expand the frame of the image
-        so that the whole rotated shape will be visible without any being cropped.
-        """
-        # Calculate the size the expanded image needs to be to contain rotated image
-        x, y = self.size()
-        w = abs(x*math.cos(angle)) + abs(y*math.sin(angle))
-        h = abs(x*math.sin(angle)) + abs(y*math.cos(angle))
-
-        # Paste the image into a larger frame and rotate
-        image = Image.blank(w, h, 4, 0)
-        image.paste(self, w/2-x/2, h/2-y/2)
-        rotated = image.rotate(angle, (w/2, h/2))
-
-        return rotated
 
     ############################
     # Colour Space Conversions
@@ -205,49 +182,6 @@ class Image:
             alpha = self._img
         return Image(alpha)
 
-    ############################
-    # Drawing Functions
-    ############################
-    def draw_dot(self, point, color=Color.black(), thickness=5):
-        """ Draw the specified dot on the image (in place) """
-        cv2.circle(self._img, point.intify().tuple(), 0, color.bgra(), thickness)
-
-    def draw_circle(self, point, radius, color=Color.black(), thickness=2):
-        """ Draw the specified circle on the image (in place) """
-        cv2.circle(self._img, point.intify().tuple(), int(radius), color.bgra(), thickness)
-
-    def draw_rectangle(self, rect, color=Color.black(), thickness=1):
-        """ Draw the specified rectangle on the image (in place) """
-        tl, br = rect.intify().top_left().tuple(), rect.intify().bottom_right().tuple()
-        cv2.rectangle(self._img, tl, br, color.bgra(), thickness=thickness)
-
-    def draw_line(self, pt1, pt2, color=Color.black(), thickness=2):
-        """ Draw the specified line on the image (in place) """
-        cv2.line(self._img, pt1.intify().tuple(), pt2.intify().tuple(), color.bgra(), thickness=thickness)
-
-    def draw_polygon(self, points, color=Color.black(), thickness=2):
-        """ Draw a polygon with vertices given by points. """
-        i = 0
-        while i < len(points) - 1:
-            self.draw_line(points[i], points[i + 1], color, thickness)
-            i += 1
-
-        self.draw_line(points[i], points[0], color, thickness)
-
-    def draw_text(self, text, point, color=Color.black(), centered=False, scale=1.5, thickness=3):
-        """ Draw the specified text on the image (in place) """
-        position = point
-        if centered:
-            size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=scale, thickness=thickness)[0]
-            position = point + Point(-size[0]/2, +size[1]/2)
-
-        position = position.intify().tuple()
-        cv2.putText(self._img, text, position, cv2.FONT_HERSHEY_SIMPLEX, scale, color.bgra(), thickness)
-
-    def draw_cross(self, point, color=Color.black(), size=5, thickness=1):
-        """ Draw an X on the image (in place). """
-        self.draw_line(point - Point(size, size), point + Point(size, size), color, thickness)
-        self.draw_line(point + Point(size, -size), point + Point(-size, size), color, thickness)
 
     def freq_range(self, coarseness_range, scale_factor):
         """Copy an image, discarding all but a range of frequency components.
