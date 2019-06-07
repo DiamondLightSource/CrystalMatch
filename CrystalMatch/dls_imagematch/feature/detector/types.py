@@ -3,8 +3,9 @@ class DetectorType:
         pass
 
     ORB = "ORB"
+    BRISK = "BRISK"
 
-    LIST_ALL = [ORB]
+    LIST_ALL = [ORB, BRISK]
 
 class ExtractorType:
     def __init__(self):
@@ -12,8 +13,9 @@ class ExtractorType:
 
     BRIEF = "BRIEF"
     ORB = "ORB"
+    BRISK = "BRISK"
 
-    LIST_ALL = [BRIEF, ORB]
+    LIST_ALL = [BRIEF, ORB, BRISK]
 
     @staticmethod
     def distance_factor(factor_type):

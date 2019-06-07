@@ -3,6 +3,7 @@ from os.path import join
 from CrystalMatch.dls_util.config.config import Config
 from CrystalMatch.dls_util.config.item import IntConfigItem, RangeIntConfigItem, FloatConfigItem, RangeFloatConfigItem, \
     EnumConfigItem, BoolConfigItem
+from CrystalMatch.dls_imagematch.feature.detector.detector_brisk import BriskDetector
 from CrystalMatch.dls_imagematch.feature.detector.detector_orb import OrbDetector
 from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, ExtractorType
 
@@ -11,11 +12,14 @@ class DetectorConfig:
     def __init__(self, folder):
         self._folder = folder
         self.orb = OrbConfig(join(folder, "det_orb.ini"))
+        self.brisk = BriskConfig(join(folder, "det_brisk.ini"))
 
 
     def get_detector_options(self, detector):
         if detector == DetectorType.ORB:
             return self.orb
+        elif detector == DetectorType.BRISK:
+            return self.brisk
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -60,6 +64,26 @@ class OrbConfig(_BaseDetectorConfig):
         self.wta_k.set_comment(det.set_wta_k.__doc__)
         self.score_type.set_comment(det.set_score_type.__doc__)
         self.patch_size.set_comment(det.set_patch_size.__doc__)
+
+        self.initialize_from_file()
+
+class BriskConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, BriskDetector)
+
+        add = self.add
+        det = BriskDetector
+
+        self.set_title("BRISK Detector Configuration")
+        self.set_comment(det.__doc__)
+
+        self.thresh = add(RangeIntConfigItem, "Threshold", det.DEFAULT_THRESH, [0, None])
+        self.octaves = add(RangeIntConfigItem, "Octaves", det.DEFAULT_OCTAVES, [0, None])
+        self.pattern_scale = add(RangeFloatConfigItem, "Pattern Scale", det.DEFAULT_PATTERN_SCALE, [0.0, None])
+
+        self.thresh.set_comment(det.set_thresh.__doc__)
+        self.octaves.set_comment(det.set_octaves.__doc__)
+        self.pattern_scale.set_comment(det.set_pattern_scale.__doc__)
 
         self.initialize_from_file()
 

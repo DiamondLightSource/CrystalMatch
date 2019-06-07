@@ -3,6 +3,7 @@ from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetect
 from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType
 from CrystalMatch.dls_imagematch.feature.detector.detector import Detector
 from CrystalMatch.dls_imagematch.feature.detector.detector_orb import OrbDetector
+from CrystalMatch.dls_imagematch.feature.detector.detector_brisk import BriskDetector
 
 
 class DetectorFactory:
@@ -16,6 +17,8 @@ class DetectorFactory:
 
         if det_type == DetectorType.ORB:
             detector = OrbDetector()
+        elif det_type == DetectorType.BRISK:
+            detector = BriskDetector()
         else:
             detector = Detector(detector=det_type)
 
