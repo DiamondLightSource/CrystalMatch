@@ -235,10 +235,10 @@ class ParserManager:
     def _sort_files_according_to_names(focusing_path):
         files = []
         file_names = listdir(focusing_path)
-        file_names.sort(key=lambda f: int(filter(str.isdigit, f)))
+        file_names.sort(key=lambda f: int("".join(filter(str.isdigit, f))))
         for file_name in file_names:
             name = join(focusing_path, file_name)
-            files.append(file(name))
+            files.append(open(name))
         return files
 
     def set_script_path(self, path):
