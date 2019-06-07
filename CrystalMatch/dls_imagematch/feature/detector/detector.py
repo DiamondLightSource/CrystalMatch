@@ -88,10 +88,15 @@ class Detector:
         on two images and find matches between them.
         """
         detector = self._create_detector()
-        extractor = self._create_extractor()
+
 
         keypoints = detector.detect(image.raw(), None)
-        keypoints, descriptors = extractor.compute(image.raw(), keypoints)
+
+        if int(OPENCV_MAJOR) < 3:
+            extractor = self._create_extractor()
+            keypoints, descriptors = extractor.compute(image.raw(), keypoints)
+        else:
+            keypoints, descriptors = detector.compute(image.raw(), keypoints)
 
         features = []
         if descriptors is None:
@@ -119,13 +124,11 @@ class Detector:
     def _create_default_detector(detector, adaptation):
         """ Create a detector of the specified type with all the default parameters"""
         name = adaptation + detector
-        try:
+        if int(OPENCV_MAJOR) < 3:
             detector = cv2.FeatureDetector_create(name)
-        except AttributeError:
-            log = logging.getLogger(".".join([__name__]))
-            log.addFilter(logconfig.ThreadContextFilter())
-            log.error(OpenCvVersionError(_OPENCV_VERSION_ERROR))
-            raise OpenCvVersionError(_OPENCV_VERSION_ERROR)
+        else:
+            detector = cv2.ORB()
+
         return detector
 
     @staticmethod
