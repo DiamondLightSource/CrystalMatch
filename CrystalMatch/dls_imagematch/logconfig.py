@@ -40,17 +40,6 @@ default_config = {
             "stream": "ext://sys.stdout"
         },
 
-        "local_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            #  "class": "logging.handlers.FileHandler",
-            "level": "DEBUG",
-            "formatter": "json",
-            "filename": "debug.log",
-            "maxBytes": MAXBYTES, # one megabyte
-            "backupCount": BACKUPCOUNT, # goes up to 20mb and starts the rollover
-            "encoding": ENCODING
-        },
-
         "graylog_gelf": {
             "class": "pygelf.GelfUdpHandler",
             "level": "INFO",
@@ -138,6 +127,6 @@ def setup_logging(
 def set_additional_handler(file_name):
     logger = logging.getLogger()
     handler = logging.handlers.RotatingFileHandler(file_name, maxBytes=MAXBYTES, backupCount=BACKUPCOUNT, encoding=ENCODING)
-    json_format = default_config.get("formatters",{}).get("json",{}).get("format",{})
+    json_format = default_config.get("formatters",{}).get("simple",{}).get("format",{})
     handler.setFormatter(logging.Formatter(json_format))
     logger.addHandler(handler)
