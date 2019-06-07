@@ -7,9 +7,10 @@ import numpy as np
 import logging
 
 from CrystalMatch.dls_focusstack.focus.pyramid import Pyramid
+from CrystalMatch.dls_focusstack.focus.pyramid_level import PyramidLevel
 from CrystalMatch.dls_imagematch import logconfig
 
-from pyramid_level import PyramidLevel
+
 
 def entropy_diviation(parameters):
     """On the top level of the pyramid (the one with the lowest resolution) two fusion operators:

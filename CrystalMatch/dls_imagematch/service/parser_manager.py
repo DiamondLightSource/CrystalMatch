@@ -41,7 +41,7 @@ class ParserManager:
                         "accounting for possible movement of crystals in the sample.")
         parser.add_argument('Formulatrix_image',
                             metavar="Formulatrix_image_path",
-                            type=file,
+                            type=argparse.FileType('r'),
                             help='Image file from the Formulatrix - selected_point should correspond to co-ordinates on '
                                  'this image.')
         parser.add_argument('beamline_stack_path',
