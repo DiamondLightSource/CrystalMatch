@@ -40,17 +40,6 @@ default_config = {
             "stream": "ext://sys.stdout"
         },
 
-        "local_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            #  "class": "logging.handlers.FileHandler",
-            "level": "DEBUG",
-            "formatter": "json",
-            "filename": "debug.log",
-            "maxBytes": MAXBYTES, # one megabyte
-            "backupCount": BACKUPCOUNT, # goes up to 20mb and starts the rollover
-            "encoding": ENCODING
-        },
-
         "graylog_gelf": {
             "class": "pygelf.GelfUdpHandler",
             "level": "INFO",
