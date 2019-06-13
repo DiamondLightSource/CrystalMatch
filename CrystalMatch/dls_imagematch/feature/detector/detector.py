@@ -68,7 +68,7 @@ class Detector:
         self._adaptation = adaptation
 
     def set_extractor(self, extractor):
-        """ Set the descriptor extractor type. Possible values are 'ORB', 'SURF', 'SIFT', 'BRIEF', and 'BRISK'."""
+        """ Set the descriptor extractor type. Possible values are 'ORB', 'BRIEF', and 'BRISK'."""
         self._extractor = extractor
 
     def set_keypoint_limit(self, limit):
@@ -127,7 +127,10 @@ class Detector:
         if int(OPENCV_MAJOR) < 3:
             detector = cv2.FeatureDetector_create(name)
         else:
-            detector = cv2.ORB()
+            if detector.detector() == DetectorType.ORB:
+                detector = cv2.ORB(adaptation)
+            else: # detector.detector() == DetectorType.BRISK:
+                detector = cv2.BRISK(adaptation)
 
         return detector
 
