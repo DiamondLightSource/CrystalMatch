@@ -11,8 +11,9 @@ class TestLoggingFunctions(SystemTest):
         cmd_line = "--log logs {resources}/A01_1.jpg {resources}/A01_2.jpg"
         self.run_crystal_matching_test(self.test_log_file_is_created.__name__, cmd_line)
 
+        log_dir =  join(self.get_active_test_dir(), "logs")
         # Check default log directory exists.
-        self.failUnlessDirContainsFile(self.get_active_test_dir(), "debug.log")
+        self.failUnlessDirContainsFile(log_dir, "log")
 
     def test_logging_flag_overrides_default_log_dirs(self):
         cmd_line = "--log test/logging/flag/ {resources}/A01_1.jpg {resources}/A01_2.jpg 345,345 567,567 123,123"
