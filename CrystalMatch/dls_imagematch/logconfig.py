@@ -127,6 +127,6 @@ def setup_logging(
 def set_additional_handler(file_name):
     logger = logging.getLogger()
     handler = logging.handlers.RotatingFileHandler(file_name, maxBytes=MAXBYTES, backupCount=BACKUPCOUNT, encoding=ENCODING)
-    json_format = default_config.get("formatters",{}).get("simple",{}).get("format",{})
+    json_format = default_config.get("formatters",{}).get("json",{}).get("format",{})
     handler.setFormatter(logging.Formatter(json_format))
     logger.addHandler(handler)

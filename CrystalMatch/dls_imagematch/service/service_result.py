@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+import sys
+
 import numpy as np
 import logging
 import json
@@ -99,11 +101,13 @@ class ServiceResult:
         :param e: Thrown exception.
         """
         self._exit_code = SERVICE_RESULT_STATUS_ERROR
-        self._exit_code.set_err_msg(e.message)
+        if sys.version_info[0] < 3:
+            self._exit_code.set_err_msg(e.message)
+        else:
+            self._exit_code.set_err_msg(str(e))
 
     def set_crystal_matching_results(self, list_of_fft_points):
         self._match_results = list_of_fft_points
-
 
 
     def append_crystal_matching_results(self, crystal_matcher_results):
