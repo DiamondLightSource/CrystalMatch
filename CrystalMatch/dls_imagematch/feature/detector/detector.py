@@ -92,11 +92,15 @@ class Detector:
 
         keypoints = detector.detect(image.raw(), None)
 
-        if int(OPENCV_MAJOR) < 3:
+        if int(OPENCV_MAJOR) < 3 or self._detector == DetectorType.FAST:
             extractor = self._create_extractor()
             keypoints, descriptors = extractor.compute(image.raw(), keypoints)
         else:
-            keypoints, descriptors = detector.compute(image.raw(), keypoints)
+            if self._detector == DetectorType.FAST:
+                extractor = self._create_extractor()
+                keypoints, descriptors = extractor.compute(image.raw(), keypoints)
+            else:
+                keypoints, descriptors = detector.compute(image.raw(), keypoints)
 
         features = []
         if descriptors is None:
@@ -127,8 +131,10 @@ class Detector:
         if int(OPENCV_MAJOR) < 3:
             detector = cv2.FeatureDetector_create(name)
         else:
-            if detector.detector() == DetectorType.ORB:
+            if detector == DetectorType.ORB:
                 detector = cv2.ORB(adaptation)
+            elif detector == DetectorType.FAST:
+                detector = cv2.FastFeatureDetector_create()
             else: # detector.detector() == DetectorType.BRISK:
                 detector = cv2.BRISK(adaptation)
 
@@ -139,11 +145,10 @@ class Detector:
         """ Note: SIFT descriptors for a keypoint are an array of 128 integers; SURF descriptors are an
         array of 64 floats (in range -1 to 1); BRISK uses 64 integers, all others are arrays of 32 ints
         (in range 0 to 255). """
-        try:
+        if int(OPENCV_MAJOR) < 3:
             extractor = cv2.DescriptorExtractor_create(extractor)
-        except AttributeError:
-            log = logging.getLogger(".".join([__name__]))
-            log.addFilter(logconfig.ThreadContextFilter())
-            log.error(OpenCvVersionError(_OPENCV_VERSION_ERROR))
-            raise OpenCvVersionError(_OPENCV_VERSION_ERROR)
+        else:
+            extractor = cv2.xfeatures2d.BriefDescriptorExtractor_create()
+            #only one extractor stayed BRISK ORB SIFT and SURF got incorporated in the detector implemetation
+
         return extractor

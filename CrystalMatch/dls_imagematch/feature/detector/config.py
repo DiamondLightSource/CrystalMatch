@@ -1,5 +1,6 @@
 from os.path import join
 
+from CrystalMatch.dls_imagematch.feature.detector import Detector
 from CrystalMatch.dls_util.config.config import Config
 from CrystalMatch.dls_util.config.item import IntConfigItem, RangeIntConfigItem, FloatConfigItem, RangeFloatConfigItem, \
     EnumConfigItem, BoolConfigItem
@@ -13,13 +14,15 @@ class DetectorConfig:
         self._folder = folder
         self.orb = OrbConfig(join(folder, "det_orb.ini"))
         self.brisk = BriskConfig(join(folder, "det_brisk.ini"))
-
+        self.fast = FastConfig(join(folder, "det_fast.ini"))
 
     def get_detector_options(self, detector):
         if detector == DetectorType.ORB:
             return self.orb
         elif detector == DetectorType.BRISK:
             return self.brisk
+        elif detector == DetectorType.FAST:
+            return self.fast
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -85,5 +88,13 @@ class BriskConfig(_BaseDetectorConfig):
         self.octaves.set_comment(det.set_octaves.__doc__)
         self.pattern_scale.set_comment(det.set_pattern_scale.__doc__)
 
+        self.initialize_from_file()
+
+class FastConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, Detector)
+
+        self.set_title("FAST Detector Configuration")
+        self.set_comment("Implements the FAST detector")
         self.initialize_from_file()
 

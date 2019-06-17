@@ -4,8 +4,9 @@ class DetectorType:
 
     ORB = "ORB"
     BRISK = "BRISK"
+    FAST = "FAST"
 
-    LIST_ALL = [ORB, BRISK]
+    LIST_ALL = [ORB, BRISK, FAST]
 
 class ExtractorType:
     def __init__(self):
@@ -21,7 +22,12 @@ class ExtractorType:
     def distance_factor(factor_type):
         """ Each extractor type has a different keypoint representation and so a different metric is used
         for calculating the match keypoint distance in each case. """
-        return 1
+        if factor_type == ExtractorType.ORB:
+            return 1
+        elif factor_type == ExtractorType.BRISK:
+            return 0.1
+        elif factor_type == ExtractorType.BRIEF:
+            return 1
 
 
 class AdaptationType:
