@@ -92,11 +92,11 @@ class Detector:
 
         keypoints = detector.detect(image.raw(), None)
 
-        if int(OPENCV_MAJOR) < 3 or self._detector == DetectorType.FAST:
+        if int(OPENCV_MAJOR) < 3:
             extractor = self._create_extractor()
             keypoints, descriptors = extractor.compute(image.raw(), keypoints)
         else:
-            if self._detector == DetectorType.FAST:
+            if self._detector == DetectorType.FAST or self._detector == DetectorType.GFTT:
                 extractor = self._create_extractor()
                 keypoints, descriptors = extractor.compute(image.raw(), keypoints)
             else:
@@ -135,6 +135,9 @@ class Detector:
                 detector = cv2.ORB(adaptation)
             elif detector == DetectorType.FAST:
                 detector = cv2.FastFeatureDetector_create()
+            elif detector == DetectorType.GFTT:
+                detector = cv2.GFTTDetector_create()
+
             else: # detector.detector() == DetectorType.BRISK:
                 detector = cv2.BRISK(adaptation)
 
