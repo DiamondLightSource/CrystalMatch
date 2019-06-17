@@ -137,9 +137,10 @@ class Detector:
                 detector = cv2.FastFeatureDetector_create()
             elif detector == DetectorType.STAR:
                 detector = cv2.xfeatures2d.StarDetector_create()
+            elif detector == DetectorType.MSER:
+                detector = cv2.MSER_create()
             elif detector == DetectorType.GFTT:
                 detector = cv2.GFTTDetector_create()
-
             else: # detector.detector() == DetectorType.BRISK:
                 detector = cv2.BRISK(adaptation)
 

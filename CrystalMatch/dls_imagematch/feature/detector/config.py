@@ -16,6 +16,7 @@ class DetectorConfig:
         self.brisk = BriskConfig(join(folder, "det_brisk.ini"))
         self.fast = FastConfig(join(folder, "det_fast.ini"))
         self.star = StarConfig(join(folder, "det_star.ini"))
+        self.mser = MserConfig(join(folder, "det_mser.ini"))
         self.gftt = GfttConfig(join(folder, "det_gftt.ini"))
 
     def get_detector_options(self, detector):
@@ -25,10 +26,12 @@ class DetectorConfig:
             return self.brisk
         elif detector == DetectorType.FAST:
             return self.fast
-        elif detector == DetectorType.GFTT:
-            return self.gftt
         elif detector == DetectorType.STAR:
             return self.star
+        elif detector == DetectorType.MSER:
+            return self.mser
+        elif detector == DetectorType.GFTT:
+            return self.gftt
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -102,6 +105,14 @@ class FastConfig(_BaseDetectorConfig):
 
         self.set_title("FAST Detector Configuration")
         self.set_comment("Implements the FAST detector")
+        self.initialize_from_file()
+
+class MserConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, Detector)
+
+        self.set_title("MSER Detector Configuration")
+        self.set_comment("Implements the MSER detector")
         self.initialize_from_file()
 
 class GfttConfig(_BaseDetectorConfig):

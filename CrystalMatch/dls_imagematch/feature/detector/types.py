@@ -6,10 +6,11 @@ class DetectorType:
     BRISK = "BRISK"
     FAST = "FAST"
     STAR = "STAR"
+    MSER = "MSER"
     GFTT = "GFTT"
 
-    LIST_ALL = [ORB, BRISK, FAST, STAR, GFTT]
-    LIST_WITHOUT_EXTRACTORS = [FAST, STAR]
+    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT]
+    LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER]
 
 class ExtractorType:
     def __init__(self):
