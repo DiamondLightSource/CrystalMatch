@@ -143,6 +143,8 @@ class Detector:
                 detector = cv2.GFTTDetector_create()
             elif detector == DetectorType.HARRIS:
                 detector = cv2.xfeatures2d.HarrisLaplaceFeatureDetector_create()
+            elif detector == DetectorType.BLOB:
+                detector = cv2.SimpleBlobDetector_create()
             else: # detector.detector() == DetectorType.BRISK:
                 detector = cv2.BRISK(adaptation)
 

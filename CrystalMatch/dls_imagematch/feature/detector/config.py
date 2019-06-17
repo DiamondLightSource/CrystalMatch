@@ -19,6 +19,7 @@ class DetectorConfig:
         self.mser = MserConfig(join(folder, "det_mser.ini"))
         self.gftt = GfttConfig(join(folder, "det_gftt.ini"))
         self.harris = GfttConfig(join(folder, "det_harris.ini"))
+        self.blob = BlobConfig(join(folder, "det_blob.ini"))
 
     def get_detector_options(self, detector):
         if detector == DetectorType.ORB:
@@ -35,6 +36,8 @@ class DetectorConfig:
             return self.gftt
         elif detector == DetectorType.HARRIS:
             return self.harris
+        elif detector == DetectorType.BLOB:
+            return self.blob
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -140,4 +143,12 @@ class HarrisConfig(_BaseDetectorConfig):
 
         self.set_title("Harris Detector Configuration")
         self.set_comment("Implements the Harris corner detector")
+        self.initialize_from_file()
+
+class BlobConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, Detector)
+
+        self.set_title("SimpleBlob Detector Configuration")
+        self.set_comment("Implements the SimpleBlob detector")
         self.initialize_from_file()

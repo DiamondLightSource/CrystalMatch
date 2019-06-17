@@ -9,9 +9,10 @@ class DetectorType:
     MSER = "MSER"
     GFTT = "GFTT"
     HARRIS = "HARRIS"
+    BLOB = "SimpleBlob"
 
-    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT, HARRIS]
-    LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER] #GFFT and HARRIS not working errror -209
+    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT, HARRIS, BLOB]
+    LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER, BLOB] #GFFT and HARRIS not working errror -209
 
 class ExtractorType:
     def __init__(self):
