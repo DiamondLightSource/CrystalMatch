@@ -15,6 +15,7 @@ class DetectorConfig:
         self.orb = OrbConfig(join(folder, "det_orb.ini"))
         self.brisk = BriskConfig(join(folder, "det_brisk.ini"))
         self.fast = FastConfig(join(folder, "det_fast.ini"))
+        self.star = StarConfig(join(folder, "det_star.ini"))
         self.gftt = GfttConfig(join(folder, "det_gftt.ini"))
 
     def get_detector_options(self, detector):
@@ -26,6 +27,8 @@ class DetectorConfig:
             return self.fast
         elif detector == DetectorType.GFTT:
             return self.gftt
+        elif detector == DetectorType.STAR:
+            return self.star
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -109,3 +112,10 @@ class GfttConfig(_BaseDetectorConfig):
         self.set_comment("Implements the GFTT detector")
         self.initialize_from_file()
 
+class StarConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, Detector)
+
+        self.set_title("STAR Detector Configuration")
+        self.set_comment("Implements the STAR detector")
+        self.initialize_from_file()

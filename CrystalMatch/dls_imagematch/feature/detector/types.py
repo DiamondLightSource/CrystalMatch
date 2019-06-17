@@ -5,9 +5,11 @@ class DetectorType:
     ORB = "ORB"
     BRISK = "BRISK"
     FAST = "FAST"
+    STAR = "STAR"
     GFTT = "GFTT"
 
-    LIST_ALL = [ORB, BRISK, FAST, GFTT]
+    LIST_ALL = [ORB, BRISK, FAST, STAR, GFTT]
+    LIST_WITHOUT_EXTRACTORS = [FAST, STAR]
 
 class ExtractorType:
     def __init__(self):

@@ -96,7 +96,7 @@ class Detector:
             extractor = self._create_extractor()
             keypoints, descriptors = extractor.compute(image.raw(), keypoints)
         else:
-            if self._detector == DetectorType.FAST or self._detector == DetectorType.GFTT:
+            if self._detector in DetectorType.LIST_WITHOUT_EXTRACTORS:
                 extractor = self._create_extractor()
                 keypoints, descriptors = extractor.compute(image.raw(), keypoints)
             else:
@@ -135,6 +135,8 @@ class Detector:
                 detector = cv2.ORB(adaptation)
             elif detector == DetectorType.FAST:
                 detector = cv2.FastFeatureDetector_create()
+            elif detector == DetectorType.STAR:
+                detector = cv2.xfeatures2d.StarDetector_create()
             elif detector == DetectorType.GFTT:
                 detector = cv2.GFTTDetector_create()
 
