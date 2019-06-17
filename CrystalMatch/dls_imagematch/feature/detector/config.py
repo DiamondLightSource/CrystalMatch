@@ -18,6 +18,7 @@ class DetectorConfig:
         self.star = StarConfig(join(folder, "det_star.ini"))
         self.mser = MserConfig(join(folder, "det_mser.ini"))
         self.gftt = GfttConfig(join(folder, "det_gftt.ini"))
+        self.harris = GfttConfig(join(folder, "det_harris.ini"))
 
     def get_detector_options(self, detector):
         if detector == DetectorType.ORB:
@@ -32,6 +33,8 @@ class DetectorConfig:
             return self.mser
         elif detector == DetectorType.GFTT:
             return self.gftt
+        elif detector == DetectorType.HARRIS:
+            return self.harris
         else:
             raise ValueError("Unrecognised detector type")
 
@@ -129,4 +132,12 @@ class StarConfig(_BaseDetectorConfig):
 
         self.set_title("STAR Detector Configuration")
         self.set_comment("Implements the STAR detector")
+        self.initialize_from_file()
+
+class HarrisConfig(_BaseDetectorConfig):
+    def __init__(self, file_path):
+        _BaseDetectorConfig.__init__(self, file_path, Detector)
+
+        self.set_title("Harris Detector Configuration")
+        self.set_comment("Implements the Harris corner detector")
         self.initialize_from_file()

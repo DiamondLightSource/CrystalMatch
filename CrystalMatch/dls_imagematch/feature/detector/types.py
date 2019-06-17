@@ -8,9 +8,10 @@ class DetectorType:
     STAR = "STAR"
     MSER = "MSER"
     GFTT = "GFTT"
+    HARRIS = "HARRIS"
 
-    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT]
-    LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER]
+    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT, HARRIS]
+    LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER] #GFFT and HARRIS not working errror -209
 
 class ExtractorType:
     def __init__(self):
