@@ -11,7 +11,7 @@ class DetectorType:
     HARRIS = "HARRIS"
     BLOB = "SimpleBlob"
 
-    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, GFTT, HARRIS, BLOB]
+    LIST_ALL = [ORB, BRISK, FAST, STAR, MSER, BLOB] #GFTT, HARRIS,
     LIST_WITHOUT_EXTRACTORS = [FAST, STAR, MSER, BLOB] #GFFT and HARRIS not working errror -209
 
 class ExtractorType:

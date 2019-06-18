@@ -21,8 +21,8 @@ class TestRunFromCommandLine(SystemTest):
         # Check that all three points were transformed
         #self.failUnlessStdOutContains("poi:(1065.97, 444.24)")
         self.failUnlessStdOutContains(
-            'poi:(1065.97, 444.24) z: None ; (0.97, 4.24) ; 1, OK ; 2.16042916777',
+            'poi:(1066.48, 444.82) z: None ; (1.48, 4.82) ; 1, OK ; 1.93117481687',
             'poi:(1165.00, 440.00) z: None ; (0.00, 0.00) ; 0, FAIL ; 0',
-            'poi:(1191.41, 1411.51) z: None ; (3.41, -1.49) ; 1, OK ; 1.95516816312',
+            'poi:(1190.13, 1412.22) z: None ; (2.13, -0.78) ; 1, OK ; 1.93002250955',
         )
 
