@@ -1,10 +1,10 @@
 import json
 import re
+
 from os import makedirs, listdir
 from os.path import exists, join, splitext, isdir, realpath, split, isfile
 from re import match, compile
 from shutil import rmtree, copytree
-from string import replace
 from subprocess import call
 from unittest import TestCase
 
@@ -114,11 +114,13 @@ class SystemTest(TestCase):
 
         # Run Crystal Matching Algorithm with command line arguments
         command = "python -m CrystalMatch.dls_imagematch.main_service " + cmd_line_args
-        with file(self._get_cmd_line_file_path(), "w") as cmd_out_file:
+        with open(self._get_cmd_line_file_path(), "w") as cmd_out_file:
             cmd_out_file.writelines(command)
-        stdout_file = file(self._get_std_out_file_path(), "w")
-        stderr_file = file(self._get_std_err_file_path(), "w")
+        stdout_file = open(self._get_std_out_file_path(), "w")
+        stderr_file = open(self._get_std_err_file_path(), "w")
         self._ret_code = call(command, shell=True, cwd=self._active_output_dir, stdout=stdout_file, stderr=stderr_file)
+        stdout_file.close()
+        stderr_file.close()
         return self._active_output_dir
 
     def substitute_tokens(self, sub_string):
@@ -131,9 +133,9 @@ class SystemTest(TestCase):
            usage: {resources}/[file]
          {expected} - > replaced with an absolute path to a directory with the test name in the 'expected' directory.
         """
-        sub_string = replace(sub_string, "{input}", self._input_dir())
-        sub_string = replace(sub_string, "{resources}", self._get_resources_dir())
-        sub_string = replace(sub_string, "{expected}", self._expected_test_dir())
+        sub_string = sub_string.replace("{input}", self._input_dir())
+        sub_string = sub_string.replace("{resources}", self._get_resources_dir())
+        sub_string = sub_string.replace("{expected}", self._expected_test_dir())
         return sub_string
 
     def _get_resources_dir(self):
@@ -168,7 +170,7 @@ class SystemTest(TestCase):
 
     @staticmethod
     def _get_file_contents(file_path):
-        with file(file_path, "r") as f:
+        with open(file_path, "r") as f:
             contents = f.read()
         return contents
 
@@ -362,9 +364,9 @@ class SystemTest(TestCase):
         """
         self.failUnless(exists(expected_file) and isfile(expected_file), "Expected file not found.")
         self.failUnless(exists(actual_file) and isfile(actual_file), "Actual file not found.")
-        with file(expected_file, 'r') as file_r:
+        with open(expected_file, 'r') as file_r:
             expected_contents = file_r.readlines()
-        with file(actual_file, 'r') as file_r:
+        with open(actual_file, 'r') as file_r:
             actual_contents = file_r.readlines()
         self.failUnlessEqual(len(expected_contents), len(actual_contents), "File length does not match")
         for i in range(len(expected_contents)):
