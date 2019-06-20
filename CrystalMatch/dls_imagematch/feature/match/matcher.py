@@ -87,7 +87,7 @@ class FeatureMatcher:
         if self._use_all_detectors:
             method = "All"
         else:
-            method = self._detector.detector
+            method = self._detector.detector_name()
 
         result = FeatureMatcherResult(self.image1, self.image2, matches, transform, method)
         return result

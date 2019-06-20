@@ -1,8 +1,9 @@
 import cv2
 
+from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
 from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, ExtractorType
 from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
-from CrystalMatch.dls_imagematch.feature.detector.detector import Detector, OPENCV_MAJOR
+from CrystalMatch.dls_imagematch.feature.detector.detector import Detector
 
 
 class BriskDetector(Detector):
@@ -49,14 +50,9 @@ class BriskDetector(Detector):
 
     # -------- FUNCTIONALITY -------------------
     def _create_detector(self):
-        if OPENCV_MAJOR == '2':
-            constructor = cv2.BRISK
-        else:
-            # noinspection PyUnresolvedReferences
-            constructor = cv2.BRISK_create
-
+        constructor = OpencvDetectorInterface().brisk_constructor()
         detector = constructor(thresh=self._thresh,
-                             octaves=self._octaves,
-                             patternScale=self._pattern_scale)
+                               octaves=self._octaves,
+                               patternScale=self._pattern_scale)
 
         return detector

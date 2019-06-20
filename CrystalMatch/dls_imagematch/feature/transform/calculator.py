@@ -6,13 +6,13 @@ import cv2
 import numpy as np
 
 from CrystalMatch.dls_imagematch import logconfig
+from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
 from CrystalMatch.dls_util.shape import Point
 from CrystalMatch.dls_imagematch.feature.transform.exception import TransformCalculationError
 from CrystalMatch.dls_imagematch.feature.transform.trs_affine import AffineTransformation
 from CrystalMatch.dls_imagematch.feature.transform.trs_homography import HomographyTransformation
 from CrystalMatch.dls_imagematch.feature.transform.trs_translation import Translation
 
-OPENCV_MAJOR = cv2.__version__[0]
 
 class TransformCalculator:
     """ For a set of matches which map points between two images, this class finds the approximate
@@ -136,22 +136,11 @@ class TransformCalculator:
             image1_pts, image2_pts = self._get_np_points(matches)
             use_full = self._method == self.AFFINE_FULL
 
-            if int(OPENCV_MAJOR) < 4:
-                affine = cv2.estimateRigidTransform(image1_pts, image2_pts, fullAffine=use_full)
-            else:
-                if use_full:
-                    affine = cv2.estimateAffine2D(image1_pts, image2_pts)
-                else:
-                    affine = cv2.estimateAffinePartial2D(image1_pts, image2_pts)
+            affine = OpencvDetectorInterface().estimateRigidTransform(image1_pts, image2_pts, use_full)
 
             if affine is not None:
-                if int(OPENCV_MAJOR) < 4:
-                    affine = np.array([affine[0], affine[1], [0, 0, 1]], np.float32)
-                    transform = AffineTransformation(affine)
-                else:
-                    affine_zero = affine[0]
-                    affine = np.array([affine_zero[0,:], affine_zero[1,:], [0, 0, 1]], np.float32)
-                    transform = AffineTransformation(affine)
+                affine_array = OpencvDetectorInterface().affine_to_np_array(affine)
+                transform = AffineTransformation(affine_array)
 
         return transform, mask
 

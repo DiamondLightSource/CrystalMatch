@@ -1,17 +1,10 @@
 import logging
 
-import cv2
-
 from CrystalMatch.dls_imagematch import logconfig
+from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
 from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, AdaptationType, ExtractorType
 from CrystalMatch.dls_imagematch.feature.detector.feature import Feature
-from CrystalMatch.dls_imagematch.feature.detector.exception import OpenCvVersionError, FeatureDetectorError
-
-OPENCV_MAJOR = cv2.__version__[0]
-
-_OPENCV_VERSION_ERROR = "Under Windows, this function only works correctly under OpenCV v2 (with Python 2.7) " \
-                        "and not under OpenCV v3. This is a widely known and reported problem but it doesn't " \
-                        "seem to have been fixed yet. Install Python 2.7 with OpenCV 2.4 and try again."
+from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
 
 
 class Detector:
@@ -33,32 +26,31 @@ class Detector:
         if detector not in DetectorType.LIST_ALL:
             raise FeatureDetectorError("No such feature detector available: " + detector)
 
-        self._detector = detector
+        self._detector_name = detector
         self._adaptation = self.DEFAULT_ADAPTATION
-        self._extractor = self.DEFAULT_EXTRACTOR
-        self._normalization = self._default_normalization(detector)
+        self._extractor_name = self.DEFAULT_EXTRACTOR
+        self._normalization = self._default_normalization()
         self._keypoint_limit = self.DEFAULT_KEYPOINT_LIMIT
 
     # -------- ACCESSORS -----------------------
 
-    def detector(self):
-        return self._detector
+    def detector_name(self):
+        return self._detector_name
 
     def adaptation(self):
         return self._adaptation
 
-    def extractor(self):
-        return self._extractor
+    def extractor_name(self):
+        return self._extractor_name
 
     def normalization(self):
         return self._normalization
-
 
     def keypoint_limit(self):
         return self._keypoint_limit
 
     def extractor_distance_factor(self):
-        return ExtractorType.distance_factor(self._extractor)
+        return ExtractorType.distance_factor(self._extractor_name)
 
     # -------- CONFIGURATION ------------------
 
@@ -69,7 +61,7 @@ class Detector:
 
     def set_extractor(self, extractor):
         """ Set the descriptor extractor type. Possible values are 'ORB', 'BRIEF', and 'BRISK'."""
-        self._extractor = extractor
+        self._extractor_name = extractor
 
     def set_keypoint_limit(self, limit):
         """ Largest allowable keypoint distance between two features to be considered a valid match using this
@@ -89,18 +81,9 @@ class Detector:
         """
         detector = self._create_detector()
 
-
         keypoints = detector.detect(image.raw(), None)
-
-        if int(OPENCV_MAJOR) < 3:
-            extractor = self._create_extractor()
-            keypoints, descriptors = extractor.compute(image.raw(), keypoints)
-        else:
-            if self._detector in DetectorType.LIST_WITHOUT_EXTRACTORS:
-                extractor = self._create_extractor()
-                keypoints, descriptors = extractor.compute(image.raw(), keypoints)
-            else:
-                keypoints, descriptors = detector.compute(image.raw(), keypoints)
+        extractor = self._create_extractor() # not good creates an object which is not always used
+        keypoints, descriptors = OpencvDetectorInterface().compute(image.raw(), keypoints, extractor, detector, self._detector_name)
 
         features = []
         if descriptors is None:
@@ -113,40 +96,23 @@ class Detector:
         return features
 
     def _create_detector(self):
-        return self._create_default_detector(self._detector, self._adaptation)
+
+        return self._create_default_detector(self._detector_name, self._adaptation)
 
     def _create_extractor(self):
-        return self._create_default_extractor(self._extractor)
+
+        return self._create_default_extractor(self._extractor_name)
 
     @staticmethod
-    def _default_normalization(detector):
+    def _default_normalization():
         """ Keypoint normalization type for the detector method; used for matching. """
 
-        return cv2.NORM_HAMMING
+        return OpencvDetectorInterface().get_hamming_norm()
 
     @staticmethod
     def _create_default_detector(detector, adaptation):
         """ Create a detector of the specified type with all the default parameters"""
-        name = adaptation + detector
-        if int(OPENCV_MAJOR) < 3:
-            detector = cv2.FeatureDetector_create(name)
-        else:
-            if detector == DetectorType.ORB:
-                detector = cv2.ORB(adaptation)
-            elif detector == DetectorType.FAST:
-                detector = cv2.FastFeatureDetector_create()
-            elif detector == DetectorType.STAR:
-                detector = cv2.xfeatures2d.StarDetector_create()
-            elif detector == DetectorType.MSER:
-                detector = cv2.MSER_create()
-            elif detector == DetectorType.GFTT:
-                detector = cv2.GFTTDetector_create()
-            elif detector == DetectorType.HARRIS:
-                detector = cv2.xfeatures2d.HarrisLaplaceFeatureDetector_create()
-            elif detector == DetectorType.BLOB:
-                detector = cv2.SimpleBlobDetector_create()
-            else: # detector.detector() == DetectorType.BRISK:
-                detector = cv2.BRISK(adaptation)
+        detector = OpencvDetectorInterface().FeatureDetector_create(detector, adaptation)
 
         return detector
 
@@ -155,10 +121,6 @@ class Detector:
         """ Note: SIFT descriptors for a keypoint are an array of 128 integers; SURF descriptors are an
         array of 64 floats (in range -1 to 1); BRISK uses 64 integers, all others are arrays of 32 ints
         (in range 0 to 255). """
-        if int(OPENCV_MAJOR) < 3:
-            extractor = cv2.DescriptorExtractor_create(extractor)
-        else:
-            extractor = cv2.xfeatures2d.BriefDescriptorExtractor_create()
-            #only one extractor stayed BRISK ORB SIFT and SURF got incorporated in the detector implemetation
+        extractor = OpencvDetectorInterface().DescriptorExtractor_create(extractor)
 
         return extractor
