@@ -1,8 +1,10 @@
+import cv2
 from os.path import realpath
 
 from CrystalMatch.dls_util.shape.point import Point
 from system_test import SystemTest
 
+OPENCV_MAJOR = cv2.__version__[0]
 
 class TestDifferentImageSizes(SystemTest):
     def setUp(self):
@@ -32,13 +34,21 @@ class TestDifferentImageSizes(SystemTest):
         cmd_line = "{resources}/A03_crop.jpg {resources}/A03.jpg 447,1153 408,1069 921,785"
         self.run_crystal_matching_test(self.test_points_translate_correctly_from_smaller_first_image.__name__, cmd_line)
 
-        # Test the POI results
-        self.failUnlessPoiAlmostEqual([
-            [Point(670, 1325), Point(0, 0), 1, 0.0],
-            [Point(631, 1241), Point(0, 0), 1, 0.0],
-            [Point(1144, 957), Point(0, 0), 0, 0.0]],
-            [5, 5, 5]
-        )
+        if int(OPENCV_MAJOR) == 2:
+            # Test the POI results
+            self.failUnlessPoiAlmostEqual([
+                [Point(670, 1325), Point(0, 0), 1, 0.0],
+                [Point(631, 1241), Point(0, 0), 1, 0.0],
+                [Point(1144, 957), Point(0, 0), 0, 0.0]],
+                [5, 5, 5]
+            )
+        else: #new opencv - different values
+            self.failUnlessPoiAlmostEqual([
+                [Point(670, 1325), Point(0, 0), 1, 0.0],
+                [Point(631, 1241), Point(0, 0), 1, 0.0],
+                [Point(1144, 957), Point(0, 0), 1, 0.0]],
+                [5, 6.6, 5.4]
+            )
 
     def test_points_translate_correctly_to_smaller_second_image(self):
         cmd_line = "{resources}/A02.jpg {resources}/A02_crop.jpg 576,1283 1265,1136 696,630"

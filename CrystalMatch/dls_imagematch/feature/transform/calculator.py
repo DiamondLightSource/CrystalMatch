@@ -12,6 +12,7 @@ from CrystalMatch.dls_imagematch.feature.transform.trs_affine import AffineTrans
 from CrystalMatch.dls_imagematch.feature.transform.trs_homography import HomographyTransformation
 from CrystalMatch.dls_imagematch.feature.transform.trs_translation import Translation
 
+OPENCV_MAJOR = cv2.__version__[0]
 
 class TransformCalculator:
     """ For a set of matches which map points between two images, this class finds the approximate
@@ -135,11 +136,22 @@ class TransformCalculator:
             image1_pts, image2_pts = self._get_np_points(matches)
             use_full = self._method == self.AFFINE_FULL
 
-            affine = cv2.estimateRigidTransform(image1_pts, image2_pts, fullAffine=use_full)
+            if int(OPENCV_MAJOR) < 4:
+                affine = cv2.estimateRigidTransform(image1_pts, image2_pts, fullAffine=use_full)
+            else:
+                if use_full:
+                    affine = cv2.estimateAffine2D(image1_pts, image2_pts)
+                else:
+                    affine = cv2.estimateAffinePartial2D(image1_pts, image2_pts)
 
             if affine is not None:
-                affine = np.array([affine[0], affine[1], [0, 0, 1]], np.float32)
-                transform = AffineTransformation(affine)
+                if int(OPENCV_MAJOR) < 4:
+                    affine = np.array([affine[0], affine[1], [0, 0, 1]], np.float32)
+                    transform = AffineTransformation(affine)
+                else:
+                    affine_zero = affine[0]
+                    affine = np.array([affine_zero[0,:], affine_zero[1,:], [0, 0, 1]], np.float32)
+                    transform = AffineTransformation(affine)
 
         return transform, mask
 

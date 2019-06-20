@@ -76,4 +76,4 @@ class TestImageScaling(SystemTest):
         self.run_crystal_matching_test(test_name, cmd_line)
 
         # Check Points of interest are found and reported at correct co-ordinates
-        self.failUnlessPoiAlmostEqual([[Point(756, 413), Point(2, 2), 1, 2.5]], deltas=(2, 2, 2))
+        self.failUnlessPoiAlmostEqual([[Point(756, 413), Point(2, 2), 1, 2.5]], deltas=(2, 2.1, 2))
