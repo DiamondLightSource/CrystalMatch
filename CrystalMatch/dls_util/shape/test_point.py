@@ -33,12 +33,12 @@ class TestPoint(TestCase):
     def test_clone_and_round_point_using_intify(self):
         a = Point(35.3, 88.6)
         b = a.intify()
-        self.failIfEqual(a, b)
+        self.assertNotEqual(a, b)
         self.assertEqual(b.x, 35)
         self.assertEqual(b.y, 89)
         a = Point(35.6, 88.5)
         b = a.intify()
-        self.failIfEqual(a, b)
+        self.assertNotEqual(a, b)
         self.assertEqual(b.x, 36)
         # Note: the rouding convetion has been changed in Python3 - half are rounded down!!
         # 0.5 becomes 0 not one

@@ -121,7 +121,7 @@ class TestImageAligner(TestCase):
 
         # Test
         self.assertTrue(isinstance(aligned_images, AlignedImages))
-        self.failIfEqual(image1, aligned_images.image1)  # This should have been rescaled
+        self.assertNotEqual(image1, aligned_images.image1)  # This should have been rescaled
         self.assertEqual(image2, aligned_images.image2)
         self.assertEqual(4, aligned_images._scale_factor)
         self.assertEqual(0.5, aligned_images.get_working_resolution())
