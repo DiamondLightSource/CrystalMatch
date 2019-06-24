@@ -60,7 +60,6 @@ class FocusStackService:
                                                      "in-focus sections of each image.")
         parser.add_argument('image_stack',
                             metavar="image_path",
-                            type=file,
                             nargs="+",
                             help="A list of image files - each image represents a level of the z-stack.")
         parser.add_argument('-o', '--output',

@@ -1,3 +1,4 @@
+import sys
 from unittest import TestCase
 
 from CrystalMatch.dls_util.shape.point import Point
@@ -39,7 +40,13 @@ class TestPoint(TestCase):
         b = a.intify()
         self.failIfEqual(a, b)
         self.failUnlessEqual(b.x, 36)
-        self.failUnlessEqual(b.y, 89)
+        # Note: the rouding convetion has been changed in Python3 - half are rounded down!!
+        # 0.5 becomes 0 not one
+        # see: https://stackoverflow.com/questions/10825926/python-3-x-rounding-behavior
+        if sys.version_info[0] < 3:
+            self.failUnlessEqual(b.y, 89)
+        else:
+            self.failUnlessEqual(b.y, 88)
 
     def test_clone_and_convert_to_float_using_floatify(self):
         a = Point(int(35), int(44))

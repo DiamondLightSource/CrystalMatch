@@ -98,30 +98,28 @@ class TestParserManager(unittest.TestCase):
         points = self.pm.parse_selected_points_from_args()
         self.assertEquals(len(points), 1)
 
-    #ten
     def test_get_focused_image_returns_an_instance_of_image_when_single_image_path_is_passed(self):
         path = 'system-tests/resources/stacking/ideal.tif'
         self.pm.get_args = Mock(return_value=Mock(beamline_stack_path=path))
         im = self.pm.get_focused_image()
         self.assertIsInstance(im, Image)
-        self.assertGreater(im.size(), 0)
+        tulp = (0, 0)
+        self.assertGreater(im.size(), tulp)
 
-    #ten
     def test_get_focused_image_returns_an_instance_of_image_when_directory_path_is_passed(self):
         path = 'system-tests/resources/stacking/levels'
         self.pm.get_args = Mock(return_value=Mock(beamline_stack_path=path, config="test_config"))
         im = self.pm.get_focused_image()
         self.assertIsInstance(im, Image)
-        self.assertGreater(im.size(), 0)
+        tulp = (0, 0)
+        self.assertGreater(im.size(), tulp)
 
-    #ten
     def test_sort_files_according_to_names(self):
         path = 'system-tests/resources/stacking/levels'
         files = ParserManager._sort_files_according_to_names(path)
         self.assertIn('FL0', files[0].name)
         self.assertIn('FL10', files[-1].name)
 
-    #ten
     def test_get_focused_image_path_when_beamline_image_path_points_to_file(self):
         path = 'system-tests/resources/stacking/ideal.tif'
         self.pm.get_args = Mock(return_value=Mock(beamline_stack_path=path))

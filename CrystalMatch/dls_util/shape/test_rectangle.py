@@ -1,3 +1,4 @@
+import sys
 from unittest import TestCase
 
 from CrystalMatch.dls_util.shape.point import Point
@@ -152,7 +153,14 @@ class TestRectangle(TestCase):
 
     def test_conversion_to_integer(self):
         expected = Rectangle.from_array([1, 3, 4, 5])
-        actual = Rectangle.from_array([1.4, 2.5, 3.7, 4.99]).intify()
+        # rounding convention changed in python3 2.5 becomes 2 not 3
+        # see:
+        # https://docs.python.org/3/library/functions.html#round
+        # https://stackoverflow.com/questions/21839140/python-3-rounding-behavior-in-python-2
+        if sys.version_info[0] < 3:
+            actual = Rectangle.from_array([1.4, 2.5, 3.7, 4.99]).intify()
+        else:
+            actual = Rectangle.from_array([1.4, 2.51, 3.7, 4.99]).intify()
         self.failUnlessEqual(expected, actual)
         self.failUnless(isinstance(actual.x1, int))
         self.failUnless(isinstance(actual.x2, int))

@@ -34,7 +34,8 @@ class TestImageFFTManager(TestCase):
     def test_an_exception_is_raised_when_trying_to_read_a_file_which_does_not_exist(self):
         file3 = MagicMock()
         file3.name = "FL0"
-        self.failUnlessRaises(ImageFFTManager([file3]))
+        with self.assertRaises(AttributeError):
+            ImageFFTManager([file3]).read_ftt_images()
 
     def test_get_fft_images_return_the_correct_field(self):
         self.assertEquals(self._imgFFTman.fft_images, self._imgFFTman.get_fft_images())

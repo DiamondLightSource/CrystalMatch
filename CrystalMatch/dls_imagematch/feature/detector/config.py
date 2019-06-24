@@ -6,7 +6,7 @@ from CrystalMatch.dls_util.config.item import IntConfigItem, RangeIntConfigItem,
     EnumConfigItem, BoolConfigItem
 from CrystalMatch.dls_imagematch.feature.detector.detector_brisk import BriskDetector
 from CrystalMatch.dls_imagematch.feature.detector.detector_orb import OrbDetector
-from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, ExtractorType
+from CrystalMatch.dls_imagematch.feature.detector.detector_types import DetectorType, ExtractorType
 
 
 class DetectorConfig:

@@ -136,7 +136,7 @@ class TransformCalculator:
             image1_pts, image2_pts = self._get_np_points(matches)
             use_full = self._method == self.AFFINE_FULL
 
-            affine = OpencvDetectorInterface().estimateRigidTransform(image1_pts, image2_pts, use_full)
+            affine = OpencvDetectorInterface().estimate_rigid_transform(image1_pts, image2_pts, use_full)
 
             if affine is not None:
                 affine_array = OpencvDetectorInterface().affine_to_np_array(affine)

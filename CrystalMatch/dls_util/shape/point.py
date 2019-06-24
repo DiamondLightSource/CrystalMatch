@@ -69,6 +69,7 @@ class Point:
 
     def intify(self):
         """ Return a new point which is the same as this but with (rounded) integer coordinates. """
+        # rounding behaviour changed from python2 to python3
         return Point(int(round(self.x, 0)), int(round(self.y, 0)))
 
     def floatify(self):

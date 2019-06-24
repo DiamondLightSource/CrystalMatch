@@ -1,6 +1,6 @@
 from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
 
-from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType
+from CrystalMatch.dls_imagematch.feature.detector.detector_types import DetectorType
 from CrystalMatch.dls_imagematch.feature.detector.detector import Detector
 from CrystalMatch.dls_imagematch.feature.detector.detector_orb import OrbDetector
 from CrystalMatch.dls_imagematch.feature.detector.detector_brisk import BriskDetector

@@ -1,7 +1,7 @@
 import cv2
 
 from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
-from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, ExtractorType
+from CrystalMatch.dls_imagematch.feature.detector.detector_types import DetectorType, ExtractorType
 from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
 from CrystalMatch.dls_imagematch.feature.detector.detector import Detector
 

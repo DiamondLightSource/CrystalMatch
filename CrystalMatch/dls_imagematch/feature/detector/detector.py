@@ -2,7 +2,7 @@ import logging
 
 from CrystalMatch.dls_imagematch import logconfig
 from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
-from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, AdaptationType, ExtractorType
+from CrystalMatch.dls_imagematch.feature.detector.detector_types import DetectorType, AdaptationType, ExtractorType
 from CrystalMatch.dls_imagematch.feature.detector.feature import Feature
 from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
 
@@ -83,7 +83,7 @@ class Detector:
 
         keypoints = detector.detect(image.raw(), None)
         extractor = self._create_extractor() # not good creates an object which is not always used
-        keypoints, descriptors = OpencvDetectorInterface().compute(image.raw(), keypoints, extractor, detector, self._detector_name)
+        keypoints, descriptors = OpencvDetectorInterface().compute(image.raw(), keypoints, extractor, detector)
 
         features = []
         if descriptors is None:
@@ -101,7 +101,7 @@ class Detector:
 
     def _create_extractor(self):
 
-        return self._create_default_extractor(self._extractor_name)
+        return self._create_default_extractor(self._extractor_name, self._detector_name)
 
     @staticmethod
     def _default_normalization():
@@ -112,15 +112,15 @@ class Detector:
     @staticmethod
     def _create_default_detector(detector, adaptation):
         """ Create a detector of the specified type with all the default parameters"""
-        detector = OpencvDetectorInterface().FeatureDetector_create(detector, adaptation)
+        detector = OpencvDetectorInterface().feature_detector_create(detector, adaptation)
 
         return detector
 
     @staticmethod
-    def _create_default_extractor(extractor):
+    def _create_default_extractor(extractor, detector_name):
         """ Note: SIFT descriptors for a keypoint are an array of 128 integers; SURF descriptors are an
         array of 64 floats (in range -1 to 1); BRISK uses 64 integers, all others are arrays of 32 ints
         (in range 0 to 255). """
-        extractor = OpencvDetectorInterface().DescriptorExtractor_create(extractor)
+        extractor = OpencvDetectorInterface().create_extractor(extractor, detector_name)
 
         return extractor
