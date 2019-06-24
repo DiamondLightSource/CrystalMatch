@@ -17,8 +17,8 @@ class TestDifferentImageSizes(SystemTest):
         # Check global alignment transform match expected
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
         self.assertEqual(1, scale)
-        self.failUnlessAlmostEqual(223, x_trans, delta=5)
-        self.failUnlessAlmostEqual(172, y_trans, delta=5)
+        self.assertAlmostEqual(223, x_trans, delta=5)
+        self.assertAlmostEqual(172, y_trans, delta=5)
 
     def test_second_image_smaller_than_first(self):
         cmd_line = "{resources}/A02.jpg {resources}/A02_crop.jpg"
@@ -27,8 +27,8 @@ class TestDifferentImageSizes(SystemTest):
         # Check global alignment transform match expected
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
         self.assertEqual(1, scale)
-        self.failUnlessAlmostEqual(-155, x_trans, delta=5)
-        self.failUnlessAlmostEqual(-70, y_trans, delta=5)
+        self.assertAlmostEqual(-155, x_trans, delta=5)
+        self.assertAlmostEqual(-70, y_trans, delta=5)
 
     def test_points_translate_correctly_from_smaller_first_image(self):
         cmd_line = "{resources}/A03_crop.jpg {resources}/A03.jpg 447,1153 408,1069 921,785"

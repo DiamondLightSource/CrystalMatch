@@ -95,7 +95,7 @@ class TestScaleCommandLineFlags(SystemTest):
 
     def failUnlessGlobalAlignmentIsValid(self, expected_scale):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
-        self.failUnlessAlmostEqual(expected_scale, scale, delta=0.001)
-        self.failUnlessAlmostEqual(0, x_trans, delta=1)
-        self.failUnlessAlmostEqual(0, y_trans, delta=1)
+        self.assertAlmostEqual(expected_scale, scale, delta=0.001)
+        self.assertAlmostEqual(0, x_trans, delta=1)
+        self.assertAlmostEqual(0, y_trans, delta=1)
         self.failUnlessStdOutContains("align_status:1, OK")

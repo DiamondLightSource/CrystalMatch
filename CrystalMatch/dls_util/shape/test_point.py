@@ -10,14 +10,14 @@ class TestPoint(TestCase):
         a = Point(3, 0)
         b = Point(3, 4)
         c = Point(6, 12)
-        self.failUnlessAlmostEqual(a.length(), 3, places=3)
-        self.failUnlessAlmostEqual(b.length(), 5, places=3)
-        self.failUnlessAlmostEqual(c.length(), 13.416, places=3)
+        self.assertAlmostEqual(a.length(), 3, places=3)
+        self.assertAlmostEqual(b.length(), 5, places=3)
+        self.assertAlmostEqual(c.length(), 13.416, places=3)
 
     def test_distance_calculation_between_two_points(self):
         a = Point(3, 4)
         b = Point(7, 13)
-        self.failUnlessAlmostEqual(a.distance_to(b), 9.849, places=3)
+        self.assertAlmostEqual(a.distance_to(b), 9.849, places=3)
 
     def test_scaled_point_calculation(self):
         a = Point(35, 27)
