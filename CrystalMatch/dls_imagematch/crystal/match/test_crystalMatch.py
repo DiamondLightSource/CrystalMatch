@@ -33,8 +33,8 @@ class TestCrystalMatch(TestCase):
         self.failUnlessEqual(starting_point, match.get_poi_image_1())
         self.failUnlessEqual(starting_point + align_offset, match.get_poi_image_2_pre_match())
         self.failUnlessEqual(None, match.get_poi_image_2_matched())
-        self.failIf(match.is_success())
-        self.failIf(match.has_matched())
+        self.assertFalse(match.is_success())
+        self.assertFalse(match.has_matched())
         self.failUnlessEqual(None, match.feature_match_result())
 
     def test_setting_feature_match_generates_poi_in_image_2_reference_space(self):
@@ -67,7 +67,7 @@ class TestCrystalMatch(TestCase):
         match.set_feature_match_result(mock_feature_match)
 
         # Test object status
-        self.failIf(match.is_success())
+        self.assertFalse(match.is_success())
         self.failUnless(match.has_matched())
         self.failUnlessEqual(CRYSTAL_MATCH_STATUS_FAIL, match.get_status())
         self.failUnlessEqual(None, match.get_poi_image_2_matched())
@@ -83,7 +83,7 @@ class TestCrystalMatch(TestCase):
 
         # Test the transformed POI and delta value
         expected_poi_image_2_pre_match = starting_point + align_offset
-        self.failIf(match.is_success())
+        self.assertFalse(match.is_success())
         self.failUnlessEqual(expected_poi_image_2_pre_match, match.get_transformed_poi())
         self.failUnlessEqual(Point(0, 0), match.get_delta())
 

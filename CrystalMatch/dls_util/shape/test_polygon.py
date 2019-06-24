@@ -49,7 +49,7 @@ class TestPolygon(TestCase):
         self.failUnlessRaises(TypeError, self.basic_polygon().offset, -5)
 
     def test_attempt_to_compare_polygon_with_invalid_type_returns_false(self):
-        self.failIf(self.basic_polygon() == 4.0)
+        self.assertFalse(self.basic_polygon() == 4.0)
 
     def test_scale_transform(self):
         self.validate_scale_for_polygon(0.5)

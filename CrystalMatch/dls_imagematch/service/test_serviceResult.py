@@ -65,7 +65,7 @@ class TestServiceResult(TestCase):
         mock_print.assert_any_call('input_image:"' + abspath('test/file/path/fomulatrix') + '"')
         mock_print.assert_any_call('output_image:"' + abspath('test/file/path/beamline/test.tif') + '"')
         output = self.get_output(mock_print)
-        self.failIf("job_id" in output)
+        self.assertFalse("job_id" in output)
 
 
     def test_add_image_alignment_results(self):
@@ -131,7 +131,7 @@ class TestServiceResult(TestCase):
 
         # Test for presence of poi: objects in output
         output = self.get_output(mock_print)
-        self.failIf("poi:" in output)
+        self.assertFalse("poi:" in output)
 
     @patch('CrystalMatch.dls_imagematch.service.service_result.print', create=True)
     def test_append_single_crystal_match_result(self, mock_print):
@@ -253,7 +253,7 @@ class TestServiceResult(TestCase):
 
         # Test for exit status of -1 in JSON object
         self.failUnlessEqual(0, json_obj['exit_code']['code'])
-        self.failIf('err_msg' in json_obj['exit_code'].keys())
+        self.assertFalse('err_msg' in json_obj['exit_code'].keys())
 
     def test_exit_code_in_json_output_with_error(self):
         # Set up mock for successful image alignment

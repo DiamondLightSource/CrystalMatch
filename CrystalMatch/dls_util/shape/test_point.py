@@ -100,7 +100,7 @@ class TestPoint(TestCase):
         self.validate_code_throws_type_error_exception("Point(3, 4) - 3.0")
 
     def test_equal_comparison_with_invalid_type_returns_false(self):
-        self.failIf(Point(3, 4) == 3.0)
+        self.assertFalse(Point(3, 4) == 3.0)
 
     def validate_code_throws_type_error_exception(self, code_with_exception):
         with self.failUnlessRaises(TypeError):

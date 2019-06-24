@@ -218,7 +218,7 @@ class SystemTest(TestCase):
     def failIfFileContains(self, file_path, *strings):
         contents = self._get_file_contents(file_path)
         for match_line in strings:
-            self.failIf(match_line in contents,
+            self.assertFalse(match_line in contents,
                         "Found in file (" + file_path + ") when not expected: " + match_line)
 
     def failUnlessFileContains(self, file_path, *strings):
@@ -259,7 +259,7 @@ class SystemTest(TestCase):
 
     def failIfStrErrHasContent(self):
         std_err = self._get_std_err()
-        self.failIf(len(std_err) > 0, "Standard err file shows errors: " + self._get_std_err_file_path())
+        self.assertFalse(len(std_err) > 0, "Standard err file shows errors: " + self._get_std_err_file_path())
 
     def failUnlessDirExists(self, directory_path):
         self.failUnless(exists(directory_path), "Directory does not exist: " + directory_path)
@@ -282,7 +282,7 @@ class SystemTest(TestCase):
             self.failUnlessDirContainsFile(directory_path, file_name)
 
     def failIfDirExists(self, dir_path):
-        self.failIf(self._is_dir(dir_path))
+        self.assertFalse(self._is_dir(dir_path))
 
     def failUnlessPoiAlmostEqual(self, expected_array, deltas=(0.5, 0.5, 2.0)): # I've increased the deltas slightly
         """
@@ -327,7 +327,7 @@ class SystemTest(TestCase):
         """
         re_compile = re.compile(regex)
         matches = re_compile.findall(self._get_std_out())
-        self.failIf(matches is None)
+        self.assertFalse(matches is None)
         return matches
 
     def get_poi_from_std_out(self):

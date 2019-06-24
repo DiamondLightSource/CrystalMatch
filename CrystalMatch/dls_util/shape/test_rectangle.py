@@ -91,15 +91,15 @@ class TestRectangle(TestCase):
 
     def test_equality(self):
         self.failUnless(Rectangle(Point(2, 3), Point(12, 16)) == self.basic_rectangle)
-        self.failIf(Rectangle(Point(1, 3), Point(12, 16)) == self.basic_rectangle)
-        self.failIf(Rectangle(Point(2, 1), Point(12, 16)) == self.basic_rectangle)
-        self.failIf(Rectangle(Point(2, 3), Point(1, 16)) == self.basic_rectangle)
-        self.failIf(Rectangle(Point(2, 3), Point(12, 1)) == self.basic_rectangle)
+        self.assertFalse(Rectangle(Point(1, 3), Point(12, 16)) == self.basic_rectangle)
+        self.assertFalse(Rectangle(Point(2, 1), Point(12, 16)) == self.basic_rectangle)
+        self.assertFalse(Rectangle(Point(2, 3), Point(1, 16)) == self.basic_rectangle)
+        self.assertFalse(Rectangle(Point(2, 3), Point(12, 1)) == self.basic_rectangle)
 
     def test_equality_comparison_with_non_rectangle_value_returns_false(self):
-        self.failIf(self.basic_rectangle.__eq__(4.5))
-        self.failIf(self.basic_rectangle.__eq__(Point(3, 4)))
-        self.failIf(self.basic_rectangle.__eq__("Hello world"))
+        self.assertFalse(self.basic_rectangle.__eq__(4.5))
+        self.assertFalse(self.basic_rectangle.__eq__(Point(3, 4)))
+        self.assertFalse(self.basic_rectangle.__eq__("Hello world"))
 
     def test_scale_transform_returns_correct_result(self):
         rectangle = Rectangle(Point(-1, -1), Point(1, 1))
@@ -118,7 +118,7 @@ class TestRectangle(TestCase):
                         .intersects(Rectangle(Point(-1, -1), Point(1, 1))))
 
     def test_intersect_test_returns_false_for_non_intersecting_rectangles(self):
-        self.failIf(Rectangle(Point(-1.01, -1.01), Point(-2, -2))
+        self.assertFalse(Rectangle(Point(-1.01, -1.01), Point(-2, -2))
                     .intersects(Rectangle(Point(-0.99, -0.99), Point(1, 1))))
 
     def test_intersect_test_with_non_rectangle_object_throws_exception(self):
