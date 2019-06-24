@@ -78,8 +78,8 @@ class TestRectangle(TestCase):
             center_x = (corner1.x + corner2.x) / 2.0
             center_y = (corner1.y + corner2.y) / 2.0
 
-            self.assertAlmostEquals(rect.center().x, center_x)
-            self.assertAlmostEquals(rect.center().y, center_y)
+            self.assertAlmostEqual(rect.center().x, center_x)
+            self.assertAlmostEqual(rect.center().y, center_y)
 
     def test_offset_transform_returns_correct_result(self):
         rectangle = Rectangle(Point(-1, -1), Point(1, 1))
