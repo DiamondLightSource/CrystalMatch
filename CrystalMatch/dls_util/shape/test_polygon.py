@@ -15,12 +15,12 @@ class TestPolygon(TestCase):
 
     def test_polygon_must_have_3_or_more_vertices(self):
         self.assertTrue(Polygon(self.valid_vertex_array))
-        self.failUnlessRaises(ValueError, Polygon, [])
-        self.failUnlessRaises(ValueError, Polygon, [self.point_a, self.point_b])
+        self.assertRaises(ValueError, Polygon, [])
+        self.assertRaises(ValueError, Polygon, [self.point_a, self.point_b])
 
     def test_polygon_vertices_must_be_points(self):
-        self.failUnlessRaises(TypeError, Polygon, [(3, 4), (4, 5), (6, 7)])
-        self.failUnlessRaises(TypeError, Polygon, [Point(3, 4), (4, 5), (6, 7)])
+        self.assertRaises(TypeError, Polygon, [(3, 4), (4, 5), (6, 7)])
+        self.assertRaises(TypeError, Polygon, [Point(3, 4), (4, 5), (6, 7)])
 
     def test_retrieve_list_of_vertices(self):
         polygon = self.basic_polygon()
@@ -45,8 +45,8 @@ class TestPolygon(TestCase):
         self.assertEqual(expected, polygon)
 
     def test_attempt_to_offset_with_non_point_value_throws_exception(self):
-        self.failUnlessRaises(TypeError, self.basic_polygon() .offset, 5)
-        self.failUnlessRaises(TypeError, self.basic_polygon().offset, -5)
+        self.assertRaises(TypeError, self.basic_polygon() .offset, 5)
+        self.assertRaises(TypeError, self.basic_polygon().offset, -5)
 
     def test_attempt_to_compare_polygon_with_invalid_type_returns_false(self):
         self.assertFalse(self.basic_polygon() == 4.0)

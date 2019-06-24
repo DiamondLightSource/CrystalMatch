@@ -77,10 +77,10 @@ class TestPoint(TestCase):
         self.assertEqual(b.y, 5.0)
 
     def test_deserialize_with_invalid_syntax_throws_exception(self):
-        self.failUnlessRaises(ValueError, Point.deserialize, "3.4;")
-        self.failUnlessRaises(ValueError, Point.deserialize, ";5.7")
-        self.failUnlessRaises(ValueError, Point.deserialize, "Some text")
-        self.failUnlessRaises(ValueError, Point.deserialize, "3.4.3;5.7")
+        self.assertRaises(ValueError, Point.deserialize, "3.4;")
+        self.assertRaises(ValueError, Point.deserialize, ";5.7")
+        self.assertRaises(ValueError, Point.deserialize, "Some text")
+        self.assertRaises(ValueError, Point.deserialize, "3.4.3;5.7")
 
     def test_operator_methods(self):
         a = Point(3, 4)
@@ -103,5 +103,5 @@ class TestPoint(TestCase):
         self.assertFalse(Point(3, 4) == 3.0)
 
     def validate_code_throws_type_error_exception(self, code_with_exception):
-        with self.failUnlessRaises(TypeError):
+        with self.assertRaises(TypeError):
             eval(code_with_exception)

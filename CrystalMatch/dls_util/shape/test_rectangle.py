@@ -28,9 +28,9 @@ class TestRectangle(TestCase):
         self.assertEqual(expected, actual)
 
     def test_creating_rectangle_from_array_with_incorrect_number_of_values_raises_exception(self):
-        self.failUnlessRaises(ValueError, Rectangle.from_array, [1, 2, 3])
-        self.failUnlessRaises(ValueError, Rectangle.from_array, [1, 2, 3, 4, 5])
-        self.failUnlessRaises(ValueError, Rectangle.from_array, [])
+        self.assertRaises(ValueError, Rectangle.from_array, [1, 2, 3])
+        self.assertRaises(ValueError, Rectangle.from_array, [1, 2, 3, 4, 5])
+        self.assertRaises(ValueError, Rectangle.from_array, [])
 
     def test_corners_always_sorted_in_ascending_order(self):
         rec = Rectangle(Point(45, -0.54), Point(-3, 26.78))
@@ -87,7 +87,7 @@ class TestRectangle(TestCase):
         self.assertEqual(Rectangle(Point(-3, -4), Point(-1, -2)), rectangle.offset(Point(-2, -3)))
 
     def test_offset_transform_without_non_point_value_throws_exception(self):
-        self.failUnlessRaises(TypeError, self.basic_rectangle.offset, (3, 5))
+        self.assertRaises(TypeError, self.basic_rectangle.offset, (3, 5))
 
     def test_equality(self):
         self.assertTrue(Rectangle(Point(2, 3), Point(12, 16)) == self.basic_rectangle)
@@ -122,9 +122,9 @@ class TestRectangle(TestCase):
                     .intersects(Rectangle(Point(-0.99, -0.99), Point(1, 1))))
 
     def test_intersect_test_with_non_rectangle_object_throws_exception(self):
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, 5.6)
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, "Hello World")
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, Point(3, 4))
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, 5.6)
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, "Hello World")
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersects, Point(3, 4))
 
     def test_intersection_creates_new_rectangle_with_correct_corners(self):
         expected = Rectangle.from_array([-1, -1, 2, 2])
@@ -140,9 +140,9 @@ class TestRectangle(TestCase):
         self.assertEqual(actual.area(), 0)
 
     def test_intersection_with_non_rectangle_object_throws_exception(self):
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, 5.6)
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, "Hello World")
-        self.failUnlessRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, Point(3, 4))
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, 5.6)
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, "Hello World")
+        self.assertRaises(TypeError, Rectangle(Point(-1, -1), Point(-2, 1)).intersection, Point(3, 4))
 
     def test_corners_returns_a_list_of_valid_point_objects(self):
         corners = self.basic_rectangle.corners()
@@ -185,11 +185,11 @@ class TestRectangle(TestCase):
         self.assertEqual(expected, actual)
 
     def test_creating_rectangle_from_centre_with_invalid_type_raises_exception(self):
-        self.failUnlessRaises(ValueError, Rectangle.from_center, "not_a_Point", 2, 2)
-        self.failUnlessRaises(ValueError, Rectangle.from_center, 0.5, 2, 2)
-        self.failUnlessRaises(ValueError, Rectangle.from_center, None, 2, 2)
+        self.assertRaises(ValueError, Rectangle.from_center, "not_a_Point", 2, 2)
+        self.assertRaises(ValueError, Rectangle.from_center, 0.5, 2, 2)
+        self.assertRaises(ValueError, Rectangle.from_center, None, 2, 2)
 
     def test_creating_rectangle_from_corner_with_invalid_type_raises_exception(self):
-        self.failUnlessRaises(ValueError, Rectangle.from_corner, "not_a_Point", 50, 73)
-        self.failUnlessRaises(ValueError, Rectangle.from_corner, 0.5, 50, 73)
-        self.failUnlessRaises(ValueError, Rectangle.from_corner, None, 50, 73)
+        self.assertRaises(ValueError, Rectangle.from_corner, "not_a_Point", 50, 73)
+        self.assertRaises(ValueError, Rectangle.from_corner, 0.5, 50, 73)
+        self.assertRaises(ValueError, Rectangle.from_corner, None, 50, 73)

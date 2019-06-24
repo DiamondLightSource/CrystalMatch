@@ -32,7 +32,7 @@ class TestImageAligner(TestCase):
         # Setup
         image1 = create_autospec(SizedImage, spec_set=True)
         image2 = create_autospec(SizedImage, spec_set=True)
-        self.failUnlessRaises(AssertionError, ImageAligner, image1, image2, None)
+        self.assertRaises(AssertionError, ImageAligner, image1, image2, None)
 
     def test_smaller_image_1_is_rescaled_to_size_of_image_2(self):
         # Setup
@@ -102,12 +102,12 @@ class TestImageAligner(TestCase):
 
     def test_align_images_fails_when_detector_config_not_set(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(0.5, 0.5)
-        self.failUnlessRaises(ImageAlignmentError, aligner.align)
+        self.assertRaises(ImageAlignmentError, aligner.align)
 
     def test_align_images_fails_when_detector_config_not_recognised(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(0.5, 0.5)
         aligner.set_detector_config(create_autospec(DetectorConfig))
-        self.failUnlessRaises(FeatureDetectorError, aligner.align)
+        self.assertRaises(FeatureDetectorError, aligner.align)
 
     # noinspection PyUnusedLocal
     @patch("CrystalMatch.dls_imagematch.feature.FeatureMatcher.set_detector")
