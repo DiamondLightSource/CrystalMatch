@@ -20,7 +20,7 @@ class TestPointFFTManager(TestCase):
         poi =  Point(15,15)
         region_size = 10
         number = PointFFTManager(fft_images, poi, region_size).find_z_level_for_point()
-        self.assertEquals(number, 1)
+        self.assertEqual(number, 1)
 
     def test_find_z_level_for_point_returns_number_of_img_with_higier_fft(self):
         img =MagicMock(get_image=Mock(return_value=np.ones((30,30),dtype=np.float64)),
@@ -37,7 +37,7 @@ class TestPointFFTManager(TestCase):
         poi =  Point(15,15)
         region_size = 10
         number = PointFFTManager(fft_images, poi, region_size).find_z_level_for_point()
-        self.assertEquals(number, 10)
+        self.assertEqual(number, 10)
 
     def test_find_z_level_for_point_very_close_to_image_edge(self):
         img = MagicMock(get_image=Mock(return_value=np.ones((30, 30), dtype=np.float64)),
@@ -48,4 +48,4 @@ class TestPointFFTManager(TestCase):
         poi = Point(1, 1)
         region_size = 10
         number = PointFFTManager(fft_images, poi, region_size).find_z_level_for_point()
-        self.assertEquals(number, 1)
+        self.assertEqual(number, 1)

@@ -56,19 +56,19 @@ class TestRectangle(TestCase):
             height = y2 - y1
 
             # Check dimensions
-            self.assertEquals(rect.width(), width)
-            self.assertEquals(rect.height(), height)
-            self.assertEquals(rect.area(), width * height)
+            self.assertEqual(rect.width(), width)
+            self.assertEqual(rect.height(), height)
+            self.assertEqual(rect.area(), width * height)
 
             # Test that all corners are correct
             self.assertEqual(rect.top_left().x, x1)
-            self.assertEquals(rect.top_left().y, y1)
-            self.assertEquals(rect.bottom_left().x, x1)
-            self.assertEquals(rect.bottom_left().y, y2)
-            self.assertEquals(rect.top_right().x, x2)
-            self.assertEquals(rect.top_right().y, y1)
-            self.assertEquals(rect.bottom_right().x, x2)
-            self.assertEquals(rect.bottom_right().y, y2)
+            self.assertEqual(rect.top_left().y, y1)
+            self.assertEqual(rect.bottom_left().x, x1)
+            self.assertEqual(rect.bottom_left().y, y2)
+            self.assertEqual(rect.top_right().x, x2)
+            self.assertEqual(rect.top_right().y, y1)
+            self.assertEqual(rect.bottom_right().x, x2)
+            self.assertEqual(rect.bottom_right().y, y2)
 
     def test_center_point_correctly_calculated(self):
         for corner1, corner2 in self.RECT_CORNER_TEST_CASES:

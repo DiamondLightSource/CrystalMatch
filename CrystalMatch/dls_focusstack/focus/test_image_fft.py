@@ -26,7 +26,7 @@ class TestImageFFT(TestCase):
         sh = ImageFFT(self._img, 1, 'test')
         fft = 10
         sh.setFFT(fft)
-        self.assertEquals(sh.getFFT(), fft)
+        self.assertEqual(sh.getFFT(), fft)
 
     def test_get_image_number_returns_correct_value(self):
         img_num = 3
@@ -40,7 +40,7 @@ class TestImageFFT(TestCase):
     def test_get_image_name_returns_name_correctly(self):
         img_name = 'test'
         sh = ImageFFT(self._img, 1, img_name)
-        self.assertEquals(sh.get_image_name(), img_name)
+        self.assertEqual(sh.get_image_name(), img_name)
 
 
 
