@@ -90,7 +90,7 @@ class TestRectangle(TestCase):
         self.failUnlessRaises(TypeError, self.basic_rectangle.offset, (3, 5))
 
     def test_equality(self):
-        self.failUnless(Rectangle(Point(2, 3), Point(12, 16)) == self.basic_rectangle)
+        self.assertTrue(Rectangle(Point(2, 3), Point(12, 16)) == self.basic_rectangle)
         self.assertFalse(Rectangle(Point(1, 3), Point(12, 16)) == self.basic_rectangle)
         self.assertFalse(Rectangle(Point(2, 1), Point(12, 16)) == self.basic_rectangle)
         self.assertFalse(Rectangle(Point(2, 3), Point(1, 16)) == self.basic_rectangle)
@@ -108,13 +108,13 @@ class TestRectangle(TestCase):
         self.assertEqual(Rectangle(Point(3.5, 3.5), Point(-3.5, -3.5)), rectangle.scale(-3.5))
 
     def test_intersect_test_returns_true_for_intersecting_rectangles(self):
-        self.failUnless(Rectangle(Point(-1, -1), Point(2, 2))
+        self.assertTrue(Rectangle(Point(-1, -1), Point(2, 2))
                         .intersects(Rectangle(Point(-2, -2), Point(1, 1))))
-        self.failUnless(Rectangle(Point(-0.99, -0.99), Point(-2, -2))
+        self.assertTrue(Rectangle(Point(-0.99, -0.99), Point(-2, -2))
                         .intersects(Rectangle(Point(-1.01, -1.01), Point(1, 1))))
 
     def test_intersect_test_returns_true_for_rectangles_which_share_a_side(self):
-        self.failUnless(Rectangle(Point(-1, -1), Point(-2, 1))
+        self.assertTrue(Rectangle(Point(-1, -1), Point(-2, 1))
                         .intersects(Rectangle(Point(-1, -1), Point(1, 1))))
 
     def test_intersect_test_returns_false_for_non_intersecting_rectangles(self):
@@ -162,17 +162,17 @@ class TestRectangle(TestCase):
         else:
             actual = Rectangle.from_array([1.4, 2.51, 3.7, 4.99]).intify()
         self.assertEqual(expected, actual)
-        self.failUnless(isinstance(actual.x1, int))
-        self.failUnless(isinstance(actual.x2, int))
-        self.failUnless(isinstance(actual.y1, int))
-        self.failUnless(isinstance(actual.y2, int))
+        self.assertTrue(isinstance(actual.x1, int))
+        self.assertTrue(isinstance(actual.x2, int))
+        self.assertTrue(isinstance(actual.y1, int))
+        self.assertTrue(isinstance(actual.y2, int))
 
     def test_conversion_to_float(self):
         actual = Rectangle.from_array([1, 2, 3, 4]).floatify()
-        self.failUnless(isinstance(actual.x1, float))
-        self.failUnless(isinstance(actual.x2, float))
-        self.failUnless(isinstance(actual.y1, float))
-        self.failUnless(isinstance(actual.y2, float))
+        self.assertTrue(isinstance(actual.x1, float))
+        self.assertTrue(isinstance(actual.x2, float))
+        self.assertTrue(isinstance(actual.y1, float))
+        self.assertTrue(isinstance(actual.y2, float))
 
     def test_create_rectangle_from_centre(self):
         expected = Rectangle.from_array([-1, -1, 1, 1])

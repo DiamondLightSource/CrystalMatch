@@ -119,23 +119,23 @@ class TestServiceOutput(SystemTest):
         self.assertFalse('err_msg' in json['exit_code'].keys())
         self.assertEqual(expected_input_image, json['input_image'])
         self.assertEqual(expected_output_image, json['output_image'])
-        self.failUnless(json['alignment']['status']['msg'] in "OK;FAIL")
+        self.assertTrue(json['alignment']['status']['msg'] in "OK;FAIL")
         status_value = json['alignment']['status']['code']
-        self.failUnless(status_value == 1 or status_value == 0)
+        self.assertTrue(status_value == 1 or status_value == 0)
         self.assertEqual(exp_scale, json['alignment']['scale'])
-        self.failUnless(isinstance(json['alignment']['translation']['x'], Number))
-        self.failUnless(isinstance(json['alignment']['translation']['y'], Number))
-        self.failUnless(isinstance(json['alignment']['mean_error'], Number))
+        self.assertTrue(isinstance(json['alignment']['translation']['x'], Number))
+        self.assertTrue(isinstance(json['alignment']['translation']['y'], Number))
+        self.assertTrue(isinstance(json['alignment']['mean_error'], Number))
         self.assertEqual(expected_poi_len, len(json['poi']))
 
         # Test POI
         for i in range(len(json['poi'])):
-            self.failUnless(isinstance(json['poi'][i]['location']['x'], Number))
-            self.failUnless(isinstance(json['poi'][i]['location']['y'], Number))
-            self.failUnless(isinstance(json['poi'][i]['translation']['x'], Number))
-            self.failUnless(isinstance(json['poi'][i]['translation']['y'], Number))
-            self.failUnless(isinstance(json['poi'][i]['mean_error'], Number))
+            self.assertTrue(isinstance(json['poi'][i]['location']['x'], Number))
+            self.assertTrue(isinstance(json['poi'][i]['location']['y'], Number))
+            self.assertTrue(isinstance(json['poi'][i]['translation']['x'], Number))
+            self.assertTrue(isinstance(json['poi'][i]['translation']['y'], Number))
+            self.assertTrue(isinstance(json['poi'][i]['mean_error'], Number))
             status_value = json['poi'][i]['status']['code']
             status_msg = json['poi'][i]['status']['msg']
-            self.failUnless(status_value == 1 or status_value == 0)
-            self.failUnless(status_msg in "OK;FAIL")
+            self.assertTrue(status_value == 1 or status_value == 0)
+            self.assertTrue(status_msg in "OK;FAIL")

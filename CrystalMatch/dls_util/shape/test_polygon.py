@@ -14,7 +14,7 @@ class TestPolygon(TestCase):
         self.valid_vertex_array = [self.point_a, self.point_b, self.point_c]
 
     def test_polygon_must_have_3_or_more_vertices(self):
-        self.failUnless(Polygon(self.valid_vertex_array))
+        self.assertTrue(Polygon(self.valid_vertex_array))
         self.failUnlessRaises(ValueError, Polygon, [])
         self.failUnlessRaises(ValueError, Polygon, [self.point_a, self.point_b])
 

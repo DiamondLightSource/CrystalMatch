@@ -51,8 +51,8 @@ class TestCrystalMatch(TestCase):
         mock_transform.transform_points.assert_called_once_with([starting_point])
 
         # Test status of the object after successful match
-        self.failUnless(match.is_success())
-        self.failUnless(match.has_matched())
+        self.assertTrue(match.is_success())
+        self.assertTrue(match.has_matched())
         self.assertEqual(CRYSTAL_MATCH_STATUS_OK, match.get_status())
         self.assertEqual(mock_transformed_point, match.get_poi_image_2_matched())
 
@@ -68,7 +68,7 @@ class TestCrystalMatch(TestCase):
 
         # Test object status
         self.assertFalse(match.is_success())
-        self.failUnless(match.has_matched())
+        self.assertTrue(match.has_matched())
         self.assertEqual(CRYSTAL_MATCH_STATUS_FAIL, match.get_status())
         self.assertEqual(None, match.get_poi_image_2_matched())
 

@@ -51,11 +51,11 @@ class TestPoint(TestCase):
     def test_clone_and_convert_to_float_using_floatify(self):
         a = Point(int(35), int(44))
         b = a.floatify()
-        self.failUnless(isinstance(a.x, int))
+        self.assertTrue(isinstance(a.x, int))
         self.assertEqual(b.x, float(35))
-        self.failUnless(isinstance(b.x, float))
+        self.assertTrue(isinstance(b.x, float))
         self.assertEqual(b.y, float(44))
-        self.failUnless(isinstance(b.y, float))
+        self.assertTrue(isinstance(b.y, float))
 
     def test_report_point_as_tuple(self):
         a = Point(3, 4)

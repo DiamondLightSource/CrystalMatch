@@ -224,7 +224,7 @@ class SystemTest(TestCase):
     def failUnlessFileContains(self, file_path, *strings):
         contents = self._get_file_contents(file_path)
         for match_line in strings:
-            self.failUnless(match_line in contents,
+            self.assertTrue(match_line in contents,
                             "Not found in file (" + file_path + ") when expected: " + match_line)
 
     def failUnlessStdOutContainsRegexString(self, regex, count=0):
@@ -238,10 +238,10 @@ class SystemTest(TestCase):
         std_out = self._get_std_out()
         compiled_regex = compile(regex)
         if count == 0:
-            self.failUnless(compiled_regex.search(std_out) is not None)
+            self.assertTrue(compiled_regex.search(std_out) is not None)
         else:
             matches = compiled_regex.findall(std_out)
-            self.failUnless(matches is not None and len(matches) == count,
+            self.assertTrue(matches is not None and len(matches) == count,
                             "Regex expected in output " + str(count) + " time(s): " + regex)
 
     def failUnlessStdOutContainsRegex(self, *regex):
@@ -255,15 +255,15 @@ class SystemTest(TestCase):
         std_err = self._get_std_err()
         for match_line in regex:
             compiled_regex = compile(match_line)
-            self.failUnless(compiled_regex.search(std_err) is not None)
+            self.assertTrue(compiled_regex.search(std_err) is not None)
 
     def failIfStrErrHasContent(self):
         std_err = self._get_std_err()
         self.assertFalse(len(std_err) > 0, "Standard err file shows errors: " + self._get_std_err_file_path())
 
     def failUnlessDirExists(self, directory_path):
-        self.failUnless(exists(directory_path), "Directory does not exist: " + directory_path)
-        self.failUnless(isdir(directory_path), "Not a directory: " + directory_path)
+        self.assertTrue(exists(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(isdir(directory_path), "Not a directory: " + directory_path)
 
     def failUnlessDirContainsFileRegex(self, directory_path, regex_filename):
         for file_name in listdir(directory_path):
@@ -272,12 +272,12 @@ class SystemTest(TestCase):
             self.fail("Could not find regex \"" + regex_filename + "\" in directory: " + directory_path)
 
     def failUnlessDirContainsFile(self, directory_path, file_name):
-        self.failUnless(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
-        self.failUnless(file_name in listdir(directory_path), "Could not find file \"" + file_name +
+        self.assertTrue(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(file_name in listdir(directory_path), "Could not find file \"" + file_name +
                         "\" in directory: " + directory_path)
 
     def failUnlessDirContainsFiles(self, directory_path, files):
-        self.failUnless(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
         for file_name in files:
             self.failUnlessDirContainsFile(directory_path, file_name)
 
@@ -362,8 +362,8 @@ class SystemTest(TestCase):
         :param expected_file: Expected file reference.
         :param actual_file: Actual file reference.
         """
-        self.failUnless(exists(expected_file) and isfile(expected_file), "Expected file not found.")
-        self.failUnless(exists(actual_file) and isfile(actual_file), "Actual file not found.")
+        self.assertTrue(exists(expected_file) and isfile(expected_file), "Expected file not found.")
+        self.assertTrue(exists(actual_file) and isfile(actual_file), "Actual file not found.")
         with open(expected_file, 'r') as file_r:
             expected_contents = file_r.readlines()
         with open(actual_file, 'r') as file_r:
