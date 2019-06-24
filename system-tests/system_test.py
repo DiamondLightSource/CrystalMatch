@@ -196,10 +196,10 @@ class SystemTest(TestCase):
 
     # Test Utility Methods
     def failIfRunFailed(self):
-        self.failUnlessEqual(0, self._ret_code)
+        self.assertEqual(0, self._ret_code)
 
     def failUnlessRunFailed(self):
-        self.failUnlessEqual(1, self._ret_code)
+        self.assertEqual(1, self._ret_code)
 
     def failUnlessStdOutContains(self, *strings):
         """
@@ -293,7 +293,7 @@ class SystemTest(TestCase):
         :param deltas: Set the delta values used for checks: ([location, offset, error])
         """
         poi_array = self.get_poi_from_std_out()
-        self.failUnlessEqual(len(expected_array), len(poi_array),
+        self.assertEqual(len(expected_array), len(poi_array),
                              "Unexpected number of POI. "
                              "Expected: " + str(len(expected_array)) + " Actual: " + str(len(poi_array)))
         for i in range(len(poi_array)):
@@ -302,7 +302,7 @@ class SystemTest(TestCase):
             self.failUnlessAlmostEqual(expected_array[i][0].y, loc.y, delta=deltas[0])
             self.failUnlessAlmostEqual(expected_array[i][1].x, off.x, delta=deltas[1])
             self.failUnlessAlmostEqual(expected_array[i][1].y, off.y, delta=deltas[1])
-            self.failUnlessEqual(expected_array[i][2], success, msg="POI result expected " + str(expected_array[i][2])
+            self.assertEqual(expected_array[i][2], success, msg="POI result expected " + str(expected_array[i][2])
                                                                     + " but result was " + str(success))
             self.failUnlessAlmostEqual(expected_array[i][3], err, msg="Error value mismatch", delta=deltas[2])
 
@@ -314,7 +314,7 @@ class SystemTest(TestCase):
         std_out = self._get_std_out()
         re_compile = re.compile("align_transform:([0-9]+\.[0-9]+), \((-?[0-9]+\.[0-9]+), (-?[0-9]+\.[0-9]+)\)")
         matches = re_compile.findall(std_out)
-        self.failUnlessEqual(1, len(matches), "Unexpected no. of matches for alignment_transform: " + str(len(matches)))
+        self.assertEqual(1, len(matches), "Unexpected no. of matches for alignment_transform: " + str(len(matches)))
         float_array = self.floatify_regex_match(matches)
         scale, x_trans, y_trans = float_array[0]
         return scale, x_trans, y_trans
@@ -368,9 +368,9 @@ class SystemTest(TestCase):
             expected_contents = file_r.readlines()
         with open(actual_file, 'r') as file_r:
             actual_contents = file_r.readlines()
-        self.failUnlessEqual(len(expected_contents), len(actual_contents), "File length does not match")
+        self.assertEqual(len(expected_contents), len(actual_contents), "File length does not match")
         for i in range(len(expected_contents)):
-            self.failUnlessEqual(
+            self.assertEqual(
                 expected_contents[i].strip(),
                 actual_contents[i].strip(),
                 'File Match: Mismatch on line {}: \n"{}"\nvs\n"{}"'.format(str(i),

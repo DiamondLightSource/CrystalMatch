@@ -252,7 +252,7 @@ class TestServiceResult(TestCase):
         json_obj = result.print_results(jason_output = True)
 
         # Test for exit status of -1 in JSON object
-        self.failUnlessEqual(0, json_obj['exit_code']['code'])
+        self.assertEqual(0, json_obj['exit_code']['code'])
         self.assertFalse('err_msg' in json_obj['exit_code'].keys())
 
     def test_exit_code_in_json_output_with_error(self):
@@ -270,5 +270,5 @@ class TestServiceResult(TestCase):
         json_obj = result.print_results(jason_output = True)
 
         # Test for exit status of -1 in JSON object
-        self.failUnlessEqual(-1, json_obj['exit_code']['code'])
-        self.failUnlessEqual('test exception', json_obj['exit_code']['err_msg'])
+        self.assertEqual(-1, json_obj['exit_code']['code'])
+        self.assertEqual('test exception', json_obj['exit_code']['err_msg'])

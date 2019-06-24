@@ -74,7 +74,7 @@ class TestImageAligner(TestCase):
                                                                        image_2_pixel_size)
 
         # Test internal value for resolution after initial config
-        self.failUnlessEqual(image_2_pixel_size, aligner._resolution, "Resolution not set to pixel_size of image 2.")
+        self.assertEqual(image_2_pixel_size, aligner._resolution, "Resolution not set to pixel_size of image 2.")
 
     def test_array_of_points_scaled_by_image_1_scale_factor_greater_than_1(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(1.0, 0.5)
@@ -82,7 +82,7 @@ class TestImageAligner(TestCase):
         expected = [Point(8, 14), Point(554, 1136)]
 
         # Test
-        self.failUnlessEqual(expected, aligner.scale_points(input_array))
+        self.assertEqual(expected, aligner.scale_points(input_array))
 
     def test_array_of_points_scaled_by_image_1_scale_factor_less_than_1(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(0.5, 1.0)
@@ -90,7 +90,7 @@ class TestImageAligner(TestCase):
         expected = [Point(2, 3.5), Point(138.5, 284)]
 
         # Test
-        self.failUnlessEqual(expected, aligner.scale_points(input_array))
+        self.assertEqual(expected, aligner.scale_points(input_array))
 
     def test_array_of_points_scaled_by_image_1_scale_factor_equal_to_0(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(0.5, 0.5)
@@ -98,7 +98,7 @@ class TestImageAligner(TestCase):
         expected = [Point(4, 7), Point(277, 568)]
 
         # Test
-        self.failUnlessEqual(expected, aligner.scale_points(input_array))
+        self.assertEqual(expected, aligner.scale_points(input_array))
 
     def test_align_images_fails_when_detector_config_not_set(self):
         aligner, image1, image2 = self.create_aligner_with_mock_images(0.5, 0.5)
@@ -122,6 +122,6 @@ class TestImageAligner(TestCase):
         # Test
         self.failUnless(isinstance(aligned_images, AlignedImages))
         self.failIfEqual(image1, aligned_images.image1)  # This should have been rescaled
-        self.failUnlessEqual(image2, aligned_images.image2)
-        self.failUnlessEqual(4, aligned_images._scale_factor)
-        self.failUnlessEqual(0.5, aligned_images.get_working_resolution())
+        self.assertEqual(image2, aligned_images.image2)
+        self.assertEqual(4, aligned_images._scale_factor)
+        self.assertEqual(0.5, aligned_images.get_working_resolution())

@@ -16,7 +16,7 @@ class TestDifferentImageSizes(SystemTest):
 
         # Check global alignment transform match expected
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(1, scale)
+        self.assertEqual(1, scale)
         self.failUnlessAlmostEqual(223, x_trans, delta=5)
         self.failUnlessAlmostEqual(172, y_trans, delta=5)
 
@@ -26,7 +26,7 @@ class TestDifferentImageSizes(SystemTest):
 
         # Check global alignment transform match expected
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(1, scale)
+        self.assertEqual(1, scale)
         self.failUnlessAlmostEqual(-155, x_trans, delta=5)
         self.failUnlessAlmostEqual(-70, y_trans, delta=5)
 

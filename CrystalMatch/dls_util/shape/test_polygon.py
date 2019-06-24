@@ -24,7 +24,7 @@ class TestPolygon(TestCase):
 
     def test_retrieve_list_of_vertices(self):
         polygon = self.basic_polygon()
-        self.failUnlessEqual(self.valid_vertex_array, polygon.vertices())
+        self.assertEqual(self.valid_vertex_array, polygon.vertices())
 
     def basic_polygon(self):
         polygon = Polygon(self.valid_vertex_array)
@@ -32,7 +32,7 @@ class TestPolygon(TestCase):
 
     def test_count_vertices(self):
         polygon = self.basic_polygon()
-        self.failUnlessEqual(3, polygon.num_vertices())
+        self.assertEqual(3, polygon.num_vertices())
 
     def test_offset_transform_of_polygon(self):
         self.validate_offset_for_polygon(Point(3, 4))
@@ -42,7 +42,7 @@ class TestPolygon(TestCase):
     def validate_offset_for_polygon(self, offset):
         polygon = Polygon(self.valid_vertex_array).offset(offset)
         expected = Polygon([self.point_a + offset, self.point_b + offset, self.point_c + offset])
-        self.failUnlessEqual(expected, polygon)
+        self.assertEqual(expected, polygon)
 
     def test_attempt_to_offset_with_non_point_value_throws_exception(self):
         self.failUnlessRaises(TypeError, self.basic_polygon() .offset, 5)
@@ -61,7 +61,7 @@ class TestPolygon(TestCase):
         expected = Polygon([self.point_a.scale(scale_factor),
                             self.point_b.scale(scale_factor),
                             self.point_c.scale(scale_factor)])
-        self.failUnlessEqual(expected, polygon)
+        self.assertEqual(expected, polygon)
 
     def test_ordered_return_list_of_edges_in_polygon(self):
         polygon = self.basic_polygon()
@@ -69,9 +69,9 @@ class TestPolygon(TestCase):
         expected = [[self.point_a, self.point_b],
                     [self.point_b, self.point_c],
                     [self.point_c, self.point_a]]
-        self.failUnlessEqual(expected, edges)
+        self.assertEqual(expected, edges)
 
     def test_create_polygon_from_rectangle(self):
         rectangle = Rectangle(Point(1, 1), Point(4, 4))
         expected = Polygon([Point(1, 1), Point(4, 1), Point(4, 4), Point(1, 4)])
-        self.failUnlessEqual(expected, Polygon.from_rectangle(rectangle))
+        self.assertEqual(expected, Polygon.from_rectangle(rectangle))

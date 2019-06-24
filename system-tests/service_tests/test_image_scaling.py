@@ -23,11 +23,11 @@ class TestImageScaling(SystemTest):
 
         # Check the global transformation, status and error margin
         scale, x, y = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(scale, 0.5)
-        self.failUnlessEqual(x, 0)
-        self.failUnlessEqual(y, 0)
+        self.assertEqual(scale, 0.5)
+        self.assertEqual(x, 0)
+        self.assertEqual(y, 0)
         matches = self.regex_from_std_out('align_error:(.*)')
-        self.failUnlessEqual(1, len(matches))
+        self.assertEqual(1, len(matches))
         self.failUnlessStdOutContains('align_status:1, OK')
 
     @parameterized.expand([
@@ -43,11 +43,11 @@ class TestImageScaling(SystemTest):
 
         # Check the global transformation, status and error margin
         scale, x, y = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(scale, 2.0)
-        self.failUnlessEqual(x, 0)
-        self.failUnlessEqual(y, 0)
+        self.assertEqual(scale, 2.0)
+        self.assertEqual(x, 0)
+        self.assertEqual(y, 0)
         matches = self.regex_from_std_out('align_error:(.*)')
-        self.failUnlessEqual(1, len(matches))
+        self.assertEqual(1, len(matches))
         self.failUnlessStdOutContains('align_status:1, OK')
 
     @parameterized.expand([

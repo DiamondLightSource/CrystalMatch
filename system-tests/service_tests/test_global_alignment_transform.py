@@ -23,9 +23,9 @@ class TestGlobalAlignmentTransform(SystemTest):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
 
         # Test the global transform - this should be exact
-        self.failUnlessEqual(1.0, scale)
-        self.failUnlessEqual(0, x_trans)
-        self.failUnlessEqual(0, y_trans)
+        self.assertEqual(1.0, scale)
+        self.assertEqual(0, x_trans)
+        self.assertEqual(0, y_trans)
 
         # Test the given points - this should be highly accurate due as the image being identical
         expected = [
@@ -46,9 +46,9 @@ class TestGlobalAlignmentTransform(SystemTest):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
 
         # Test the global transform - this should be exact
-        self.failUnlessEqual(1.0, scale)
-        self.failUnlessEqual(10.0, x_trans)
-        self.failUnlessEqual(10.0, y_trans)
+        self.assertEqual(1.0, scale)
+        self.assertEqual(10.0, x_trans)
+        self.assertEqual(10.0, y_trans)
 
         # Test the given points - this should be highly accurate due as the image being identical
         expected = [
@@ -69,9 +69,9 @@ class TestGlobalAlignmentTransform(SystemTest):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
 
         # Test the global transform - this should be exact
-        self.failUnlessEqual(1.0, scale)
-        self.failUnlessEqual(-10.0, x_trans)
-        self.failUnlessEqual(-10.0, y_trans)
+        self.assertEqual(1.0, scale)
+        self.assertEqual(-10.0, x_trans)
+        self.assertEqual(-10.0, y_trans)
 
         # Test the given points - this should be highly accurate due as the image being identical
         expected = [
@@ -92,9 +92,9 @@ class TestGlobalAlignmentTransform(SystemTest):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
 
         # Test the global transform - this should be exact
-        self.failUnlessEqual(1.0, scale)
-        self.failUnlessEqual(10.0, x_trans)
-        self.failUnlessEqual(-10.0, y_trans)
+        self.assertEqual(1.0, scale)
+        self.assertEqual(10.0, x_trans)
+        self.assertEqual(-10.0, y_trans)
 
         # Test the given points - this should be highly accurate due as the image being identical
         expected = [
@@ -115,9 +115,9 @@ class TestGlobalAlignmentTransform(SystemTest):
         scale, x_trans, y_trans = self.get_global_transform_from_std_out()
 
         # Test the global transform - this should be exact
-        self.failUnlessEqual(1.0, scale)
-        self.failUnlessEqual(-10.0, x_trans)
-        self.failUnlessEqual(10.0, y_trans)
+        self.assertEqual(1.0, scale)
+        self.assertEqual(-10.0, x_trans)
+        self.assertEqual(10.0, y_trans)
 
         # Test the given points - this should be highly accurate due as the image being identical
         expected = [

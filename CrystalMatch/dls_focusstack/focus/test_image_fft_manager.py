@@ -51,7 +51,7 @@ class TestImageFFTManager(TestCase):
         for idx, name in enumerate(file_list):
             for fft_img in manager.get_fft_images():
                 if(fft_img.get_image_name() == name): #assuming the names are unique
-                    self.failUnlessEqual(fft_img.get_image_number, idx)
+                    self.assertEqual(fft_img.get_image_number, idx)
 
     def test_the_created_fft_images_contain_fft(self):
         for fft_img in self._imgFFTman.get_fft_images():
