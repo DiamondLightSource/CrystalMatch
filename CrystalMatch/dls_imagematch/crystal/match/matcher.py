@@ -97,17 +97,17 @@ class CrystalMatcher:
                                                     image1_rect,
                                                     image2_rect)
 
-            self._perform_match(feature_matcher, crystal_match)
+            result = self._perform_match(feature_matcher)
+            crystal_match.set_feature_match_result(result)
 
         return crystal_match
 
-    def _perform_match(self, feature_matcher, crystal_match):
+    def _perform_match(self, feature_matcher):
         feature_matcher.set_use_all_detectors()
         feature_matcher.set_transform_method(self._transform_method)
         feature_matcher.set_transform_filter(self._transform_filter)
 
-        result = feature_matcher.match()
-        crystal_match.set_feature_match_result(result)
+        return feature_matcher.match()
 
     def make_target_region(self, center):
         size = self._region_size_pixels()
