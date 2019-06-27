@@ -47,7 +47,7 @@ class TestDifferentImageSizes(SystemTest):
                 [Point(670, 1325), Point(0, 0), 1, 0.0],
                 [Point(631, 1241), Point(0, 0), 1, 0.0],
                 [Point(1144, 957), Point(0, 0), 1, 0.0]],
-                [5, 6.6, 5.4]
+                [5, 6.6, 5.8]
             )
 
     def test_points_translate_correctly_to_smaller_second_image(self):

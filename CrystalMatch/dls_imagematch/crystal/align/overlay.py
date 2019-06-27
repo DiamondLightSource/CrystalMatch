@@ -18,6 +18,7 @@ class Overlayer:
         If image B only partially overlaps image A, only the overlapping sections of each
         are returned.
         """
+        offset = offset.intify() # VMXI-468 - round before cropping
         rect_a = image1.bounds()
         rect_b = image2.bounds().offset(offset)
         overlap_a_rect = rect_a.intersection(rect_b)

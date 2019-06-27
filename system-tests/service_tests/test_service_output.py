@@ -24,6 +24,24 @@ class TestServiceOutput(SystemTest):
     def setUp(self):
         self.set_directory_paths(realpath(__file__))
 
+    def test_runs_fine_for_a_case_that_used_to_fall_due_to_rounding_issue(self): # VMXI-468
+        cmd_line = "--scale 1.0:1.575 -j 01234 /dls/mx/data/mx21314/mx21314-4/imaging/115744/29821/12267688.jpg " \
+                   "/dls/mx/data/mx21314/mx21314-4/VMXi-AB0701/well_126/zstack_20180912_171400/processed_image.tif " \
+                   "1174,731"
+        self.run_crystal_matching_test(self.test_runs_fine_for_a_case_that_used_to_fall_due_to_rounding_issue.__name__, cmd_line)
+
+        # Test format of alignment output
+        self.failUnlessStdOutContains(
+            'exit_code:0',
+            'job_id:"01234"',
+            'input_image:"' + '/dls/mx/data/mx21314/mx21314-4/imaging/115744/29821/12267688.jpg' + '"',
+            'output_image:"' +  '/dls/mx/data/mx21314/mx21314-4/VMXi-AB0701/well_126/zstack_20180912_171400/processed_image.tif' + '"',
+        )
+        self.failUnlessStdOutContainsRegex(
+            'align_status:1, OK\n',
+            'align_error:[0-9][0-9]?\.[0-9]+\n',
+        )
+
     def test_output_format_for_valid_run(self):
         cmd_line = "-j 01234 {resources}/A10_1.jpg {resources}/A10_2.jpg 902,435 963,1310"
         self.run_crystal_matching_test(self.test_output_format_for_valid_run.__name__, cmd_line)
