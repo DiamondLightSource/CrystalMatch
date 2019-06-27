@@ -54,10 +54,18 @@ class TestDifferentImageSizes(SystemTest):
         cmd_line = "{resources}/A02.jpg {resources}/A02_crop.jpg 576,1283 1265,1136 696,630"
         self.run_crystal_matching_test(self.test_points_translate_correctly_to_smaller_second_image.__name__, cmd_line)
 
-        # Test the POI results
-        self.failUnlessPoiAlmostEqual([
-            [Point(421, 1213), Point(0, 0), 1, 0.0],
-            [Point(1110, 1066), Point(0, 0), 0, 0.0],
-            [Point(541, 560), Point(0, 0), 0, 0.0]],
-            [5.6, 5, 5.6]
-        )
+        if int(OPENCV_MAJOR) == 2:
+            # Test the POI results
+            self.failUnlessPoiAlmostEqual([
+                [Point(421, 1213), Point(0, 0), 1, 0.0],
+                [Point(1110, 1066), Point(0, 0), 0, 0.0],
+                [Point(541, 560), Point(0, 0), 0, 0.0]],
+                [5.6, 5, 5.6]
+            )
+        else:
+            self.failUnlessPoiAlmostEqual([
+                [Point(421, 1213), Point(0, 0), 1, 0.0],
+                [Point(1110, 1066), Point(0, 0), 1, 0.0],
+                [Point(541, 560), Point(0, 0), 1, 0.0]],
+                [5, 5, 5]
+            )
