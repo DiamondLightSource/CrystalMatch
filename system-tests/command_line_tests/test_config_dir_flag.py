@@ -4,7 +4,7 @@ from system_test import SystemTest
 
 
 class TestCommandLineConfigFlag(SystemTest):
-    expected_config_files = ["align.ini", "crystal.ini", "det_blob.ini", "det_brisk.ini", "det_fast.ini", "det_star.ini", "det_orb.ini", "det_mser.ini"]
+    expected_config_files = ["align.ini", "crystal.ini", "det_blob.ini", "det_brisk.ini", "det_fast.ini", "det_star.ini", "det_orb.ini", "det_mser.ini", "det_harris.ini", "det_gftt.ini"]
 
     def setUp(self):
         self.set_directory_paths(realpath(__file__))

@@ -37,10 +37,10 @@ class TestDifferentImageSizes(SystemTest):
         if int(OPENCV_MAJOR) == 2:
             # Test the POI results
             self.failUnlessPoiAlmostEqual([
-                [Point(670, 1325), Point(0, 0), 1, 0.0],
+                [Point(670, 1325), Point(0, 0), 0, 0.0],
                 [Point(631, 1241), Point(0, 0), 1, 0.0],
                 [Point(1144, 957), Point(0, 0), 0, 0.0]],
-                [5, 5, 5]
+                [5, 5.4, 5]
             )
         else: #new opencv - different values
             self.failUnlessPoiAlmostEqual([
@@ -57,7 +57,7 @@ class TestDifferentImageSizes(SystemTest):
         # Test the POI results
         self.failUnlessPoiAlmostEqual([
             [Point(421, 1213), Point(0, 0), 1, 0.0],
-            [Point(1110, 1066), Point(0, 0), 1, 0.0],
-            [Point(541, 560), Point(0, 0), 1, 0.0]],
-            [5, 5, 5]
+            [Point(1110, 1066), Point(0, 0), 0, 0.0],
+            [Point(541, 560), Point(0, 0), 0, 0.0]],
+            [5.6, 5, 5.6]
         )

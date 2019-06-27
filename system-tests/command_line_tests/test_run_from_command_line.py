@@ -23,9 +23,9 @@ class TestRunFromCommandLine(SystemTest):
         # results are slightly different for the newer version of opencv
         if int(OPENCV_MAJOR) == 2:
             self.failUnlessStdOutContains(
-                'poi:(1066.48, 444.82) z: None ; (1.48, 4.82) ; 1, OK ; 1.93117481687',
-                'poi:(1165.00, 440.00) z: None ; (0.00, 0.00) ; 0, FAIL ; 0',
-                'poi:(1190.13, 1412.22) z: None ; (2.13, -0.78) ; 1, OK ; 1.93002250955',
+                'poi:(1065.21, 444.42) z: None ; (0.21, 4.42) ; 1, OK ; 1.9082713294',
+                'poi:(1207.72, 552.65) z: None ; (42.72, 112.65) ; 1, OK ; 2.58165335008',
+                'poi:(1190.95, 1411.78) z: None ; (2.95, -1.22) ; 1, OK ; 2.06714213361',
             )
         else:
             self.failUnlessStdOutContains(
