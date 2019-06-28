@@ -8,7 +8,7 @@ import re
 import cv2
 from os.path import split, exists, isdir, isfile, join, abspath, getmtime, dirname, expanduser
 
-from os import listdir, makedirs, chmod
+from os import listdir, makedirs, chmod, close
 import sys
 
 from CrystalMatch.dls_focusstack.focus.focus_stack_lap_pyramid import FocusStack
@@ -251,7 +251,8 @@ class ParserManager:
 
         for file_name in file_names:
             name = join(focusing_path, file_name)
-            files.append(open(name))
+            with open(name, 'rt') as f:
+                files.append(f)
         return files
 
     def set_script_path(self, path):

@@ -37,7 +37,7 @@ class TestPyramid(TestCase):
     def test_fuse_does_not_change_the_depth_of_the_pyramid(self):
         collection_layer_0 = self._pyramid_collection.get_pyramid(0)
         fused = self._pyramid_collection.fuse(self._kernel_size)
-        self.assertEquals(collection_layer_0.get_depth(), fused.get_depth())
+        self.assertEqual(collection_layer_0.get_depth(), fused.get_depth())
 
     def test_fused_laplacian_of_level0_has_size_of_input_level0(self):
         laplacians_level0 = np.zeros((2, 4, 4), dtype=np.float64)
@@ -45,7 +45,7 @@ class TestPyramid(TestCase):
         laplacians_level0[1] = self._pyramid_collection.get_pyramid(1).get_level(0).get_array()
         param = (laplacians_level0, self._pyramid_collection.get_region_kernel(), 2)
         fused_level = fused_laplacian(param)
-        self.assertEquals(fused_level.get_array().shape, laplacians_level0[0].shape)
+        self.assertEqual(fused_level.get_array().shape, laplacians_level0[0].shape)
 
     def test_entropy_deviation_calls_entropy_and_deviation_once(self):
         layer = MagicMock()

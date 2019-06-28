@@ -27,17 +27,18 @@ class TestImageFFTManager(TestCase):
         self._imgFFTman.read_ftt_images()
 
     def test_read_ftt_images_creates_list_of_two_fft_images_for_two_input_file_objects(self):
-        self.assertEquals(len(self._imgFFTmanEmpty.fft_images), 0)
+        self.assertEqual(len(self._imgFFTmanEmpty.fft_images), 0)
         self._imgFFTmanEmpty.read_ftt_images()
-        self.assertEquals(len(self._imgFFTmanEmpty.fft_images), 2)
+        self.assertEqual(len(self._imgFFTmanEmpty.fft_images), 2)
 
     def test_an_exception_is_raised_when_trying_to_read_a_file_which_does_not_exist(self):
         file3 = MagicMock()
         file3.name = "FL0"
-        self.failUnlessRaises(ImageFFTManager([file3]))
+        with self.assertRaises(AttributeError):
+            ImageFFTManager([file3]).read_ftt_images()
 
     def test_get_fft_images_return_the_correct_field(self):
-        self.assertEquals(self._imgFFTman.fft_images, self._imgFFTman.get_fft_images())
+        self.assertEqual(self._imgFFTman.fft_images, self._imgFFTman.get_fft_images())
 
     def test_the_created_fft_images_contain_image_array(self):
         for fft_img in self._imgFFTman.get_fft_images():
@@ -50,7 +51,7 @@ class TestImageFFTManager(TestCase):
         for idx, name in enumerate(file_list):
             for fft_img in manager.get_fft_images():
                 if(fft_img.get_image_name() == name): #assuming the names are unique
-                    self.failUnlessEqual(fft_img.get_image_number, idx)
+                    self.assertEqual(fft_img.get_image_number, idx)
 
     def test_the_created_fft_images_contain_fft(self):
         for fft_img in self._imgFFTman.get_fft_images():
@@ -60,4 +61,4 @@ class TestImageFFTManager(TestCase):
         param = (self._file1.name, 10)
         image_fft = image_fft_manager.fft(param)
         self.assertIsNotNone(image_fft.getFFT())
-        self.assertEquals(image_fft.get_image_number(), 10)
+        self.assertEqual(image_fft.get_image_number(), 10)

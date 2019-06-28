@@ -32,25 +32,25 @@ class TestPyramidManager(TestCase):
         #gaussian pyramid
         p_collection = PyramidManager(self._images, self._config)._gaussian_pyramid(self._depth)
         # number of layers in the collection
-        self.assertEquals(p_collection.get_number_of_layers(), 2)
+        self.assertEqual(p_collection.get_number_of_layers(), 2)
         collection_layer_0 = p_collection.get_pyramid(0)
         # high of the pyramid in the collection
-        self.assertEquals(collection_layer_0.get_depth(), self._depth)
+        self.assertEqual(collection_layer_0.get_depth(), self._depth)
         # zero level of the pyramid is made out of input images
         self.assertIn(collection_layer_0.get_level(0).get_array(), self._images[0])
         # sieze of first level is half of level zero
-        self.assertEquals(collection_layer_0.get_level(1).get_array().shape, (2,2))
+        self.assertEqual(collection_layer_0.get_level(1).get_array().shape, (2,2))
 
     def test_laplacian_has_correct_size(self):
         # gaussian pyramid
         p_collection = PyramidManager(self._images, self._config).laplacian_pyramid(self._depth)
         # number of layers in the collection
-        self.assertEquals(p_collection.get_number_of_layers(), 2)
+        self.assertEqual(p_collection.get_number_of_layers(), 2)
         collection_layer_0 = p_collection.get_pyramid(0)
         # high of the pyramid in the collection
-        self.assertEquals(collection_layer_0.get_depth(), self._depth)
+        self.assertEqual(collection_layer_0.get_depth(), self._depth)
         # sieze of first level is half of level zero
-        self.assertEquals(collection_layer_0.get_level(1).get_array().shape, (2, 2))
+        self.assertEqual(collection_layer_0.get_level(1).get_array().shape, (2, 2))
 
     def test_top_level_of_laplacian_and_gaussian_pyramids_are_the_same(self):
         l = PyramidManager(self._images, self._config).laplacian_pyramid(self._depth).get_pyramid(0)

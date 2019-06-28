@@ -196,10 +196,10 @@ class SystemTest(TestCase):
 
     # Test Utility Methods
     def failIfRunFailed(self):
-        self.failUnlessEqual(0, self._ret_code)
+        self.assertEqual(0, self._ret_code)
 
     def failUnlessRunFailed(self):
-        self.failUnlessEqual(1, self._ret_code)
+        self.assertEqual(1, self._ret_code)
 
     def failUnlessStdOutContains(self, *strings):
         """
@@ -218,13 +218,13 @@ class SystemTest(TestCase):
     def failIfFileContains(self, file_path, *strings):
         contents = self._get_file_contents(file_path)
         for match_line in strings:
-            self.failIf(match_line in contents,
+            self.assertFalse(match_line in contents,
                         "Found in file (" + file_path + ") when not expected: " + match_line)
 
     def failUnlessFileContains(self, file_path, *strings):
         contents = self._get_file_contents(file_path)
         for match_line in strings:
-            self.failUnless(match_line in contents,
+            self.assertTrue(match_line in contents,
                             "Not found in file (" + file_path + ") when expected: " + match_line)
 
     def failUnlessStdOutContainsRegexString(self, regex, count=0):
@@ -238,10 +238,10 @@ class SystemTest(TestCase):
         std_out = self._get_std_out()
         compiled_regex = compile(regex)
         if count == 0:
-            self.failUnless(compiled_regex.search(std_out) is not None)
+            self.assertTrue(compiled_regex.search(std_out) is not None)
         else:
             matches = compiled_regex.findall(std_out)
-            self.failUnless(matches is not None and len(matches) == count,
+            self.assertTrue(matches is not None and len(matches) == count,
                             "Regex expected in output " + str(count) + " time(s): " + regex)
 
     def failUnlessStdOutContainsRegex(self, *regex):
@@ -255,15 +255,15 @@ class SystemTest(TestCase):
         std_err = self._get_std_err()
         for match_line in regex:
             compiled_regex = compile(match_line)
-            self.failUnless(compiled_regex.search(std_err) is not None)
+            self.assertTrue(compiled_regex.search(std_err) is not None)
 
     def failIfStrErrHasContent(self):
         std_err = self._get_std_err()
-        self.failIf(len(std_err) > 0, "Standard err file shows errors: " + self._get_std_err_file_path())
+        self.assertFalse(len(std_err) > 0, "Standard err file shows errors: " + self._get_std_err_file_path())
 
     def failUnlessDirExists(self, directory_path):
-        self.failUnless(exists(directory_path), "Directory does not exist: " + directory_path)
-        self.failUnless(isdir(directory_path), "Not a directory: " + directory_path)
+        self.assertTrue(exists(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(isdir(directory_path), "Not a directory: " + directory_path)
 
     def failUnlessDirContainsFileRegex(self, directory_path, regex_filename):
         for file_name in listdir(directory_path):
@@ -272,39 +272,39 @@ class SystemTest(TestCase):
             self.fail("Could not find regex \"" + regex_filename + "\" in directory: " + directory_path)
 
     def failUnlessDirContainsFile(self, directory_path, file_name):
-        self.failUnless(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
-        self.failUnless(file_name in listdir(directory_path), "Could not find file \"" + file_name +
+        self.assertTrue(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(file_name in listdir(directory_path), "Could not find file \"" + file_name +
                         "\" in directory: " + directory_path)
 
     def failUnlessDirContainsFiles(self, directory_path, files):
-        self.failUnless(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
+        self.assertTrue(self._is_dir(directory_path), "Directory does not exist: " + directory_path)
         for file_name in files:
             self.failUnlessDirContainsFile(directory_path, file_name)
 
     def failIfDirExists(self, dir_path):
-        self.failIf(self._is_dir(dir_path))
+        self.assertFalse(self._is_dir(dir_path))
 
     def failUnlessPoiAlmostEqual(self, expected_array, deltas=(0.5, 0.5, 2.0)): # I've increased the deltas slightly
         """
         Extracts POI information from the console output and checks it against the array values using
-        failUnlessAlmostEqual - default delta values are set.
+        assertAlmostEqual - default delta values are set.
         NOTE: This will fail if verbose or debug mode is active
         :param expected_array: An array of POI value arrays which match the format [location, transform, success, error]
         :param deltas: Set the delta values used for checks: ([location, offset, error])
         """
         poi_array = self.get_poi_from_std_out()
-        self.failUnlessEqual(len(expected_array), len(poi_array),
+        self.assertEqual(len(expected_array), len(poi_array),
                              "Unexpected number of POI. "
                              "Expected: " + str(len(expected_array)) + " Actual: " + str(len(poi_array)))
         for i in range(len(poi_array)):
             loc, off, success, err = poi_array[i]
-            self.failUnlessAlmostEqual(expected_array[i][0].x, loc.x, delta=deltas[0])
-            self.failUnlessAlmostEqual(expected_array[i][0].y, loc.y, delta=deltas[0])
-            self.failUnlessAlmostEqual(expected_array[i][1].x, off.x, delta=deltas[1])
-            self.failUnlessAlmostEqual(expected_array[i][1].y, off.y, delta=deltas[1])
-            self.failUnlessEqual(expected_array[i][2], success, msg="POI result expected " + str(expected_array[i][2])
+            self.assertAlmostEqual(expected_array[i][0].x, loc.x, delta=deltas[0])
+            self.assertAlmostEqual(expected_array[i][0].y, loc.y, delta=deltas[0])
+            self.assertAlmostEqual(expected_array[i][1].x, off.x, delta=deltas[1])
+            self.assertAlmostEqual(expected_array[i][1].y, off.y, delta=deltas[1])
+            self.assertEqual(expected_array[i][2], success, msg="POI result expected " + str(expected_array[i][2])
                                                                     + " but result was " + str(success))
-            self.failUnlessAlmostEqual(expected_array[i][3], err, msg="Error value mismatch", delta=deltas[2])
+            self.assertAlmostEqual(expected_array[i][3], err, msg="Error value mismatch", delta=deltas[2])
 
     def get_global_transform_from_std_out(self):
         """
@@ -314,7 +314,7 @@ class SystemTest(TestCase):
         std_out = self._get_std_out()
         re_compile = re.compile("align_transform:([0-9]+\.[0-9]+), \((-?[0-9]+\.[0-9]+), (-?[0-9]+\.[0-9]+)\)")
         matches = re_compile.findall(std_out)
-        self.failUnlessEqual(1, len(matches), "Unexpected no. of matches for alignment_transform: " + str(len(matches)))
+        self.assertEqual(1, len(matches), "Unexpected no. of matches for alignment_transform: " + str(len(matches)))
         float_array = self.floatify_regex_match(matches)
         scale, x_trans, y_trans = float_array[0]
         return scale, x_trans, y_trans
@@ -327,7 +327,7 @@ class SystemTest(TestCase):
         """
         re_compile = re.compile(regex)
         matches = re_compile.findall(self._get_std_out())
-        self.failIf(matches is None)
+        self.assertFalse(matches is None)
         return matches
 
     def get_poi_from_std_out(self):
@@ -362,15 +362,15 @@ class SystemTest(TestCase):
         :param expected_file: Expected file reference.
         :param actual_file: Actual file reference.
         """
-        self.failUnless(exists(expected_file) and isfile(expected_file), "Expected file not found.")
-        self.failUnless(exists(actual_file) and isfile(actual_file), "Actual file not found.")
+        self.assertTrue(exists(expected_file) and isfile(expected_file), "Expected file not found.")
+        self.assertTrue(exists(actual_file) and isfile(actual_file), "Actual file not found.")
         with open(expected_file, 'r') as file_r:
             expected_contents = file_r.readlines()
         with open(actual_file, 'r') as file_r:
             actual_contents = file_r.readlines()
-        self.failUnlessEqual(len(expected_contents), len(actual_contents), "File length does not match")
+        self.assertEqual(len(expected_contents), len(actual_contents), "File length does not match")
         for i in range(len(expected_contents)):
-            self.failUnlessEqual(
+            self.assertEqual(
                 expected_contents[i].strip(),
                 actual_contents[i].strip(),
                 'File Match: Mismatch on line {}: \n"{}"\nvs\n"{}"'.format(str(i),

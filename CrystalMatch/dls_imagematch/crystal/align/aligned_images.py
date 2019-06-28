@@ -1,8 +1,6 @@
 from CrystalMatch.dls_imagematch.util.status import StatusFlag
-from CrystalMatch.dls_util.imaging import Color
 from CrystalMatch.dls_util.shape import Point
 from CrystalMatch.dls_imagematch.crystal.align.metric_overlap import OverlapMetric
-from CrystalMatch.dls_imagematch.crystal.align.overlay import Overlayer
 
 
 class AlignedImagesStatus(StatusFlag):
@@ -115,13 +113,6 @@ class AlignedImages:
 
         return self._real_center
 
-    def overlay(self, rect_color=Color.black()):
-        """ An image which consists of Image A with the overlapping regions of Image B in a 50:50 blend. """
-        if self._overlay is None:
-            # DEV NOTE: Overlayer uses the offset of image B from Image A - the translation must be inverted
-            self._overlay = Overlayer.create_overlay_image(self.image1, self.image2, -self._translation, rect_color)
-        return self._overlay
-
     def alignment_status_code(self):
         if self.is_alignment_bad():
             return ALIGNED_IMAGE_STATUS_FAIL
@@ -135,10 +126,3 @@ class AlignedImages:
             self._metric = metric_calc.calculate_overlap_metric(-self._translation)
         return self._metric
 
-    def overlap_images(self):
-        """ Two images which are the sub-regions of Images A and B which overlap. """
-        if self._overlap_images is None:
-            region_a, region_b = Overlayer.get_overlap_regions(self.image1, self.image2, self.pixel_offset())
-            self._overlap_images = (region_a, region_b)
-
-        return self._overlap_images

@@ -29,13 +29,13 @@ class TestCrystalMatch(TestCase):
         match = self.mock_create_crystal_match(align_offset, resolution, starting_point)
 
         # Test object starting-state
-        self.failUnlessEqual(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET, match.get_status())
-        self.failUnlessEqual(starting_point, match.get_poi_image_1())
-        self.failUnlessEqual(starting_point + align_offset, match.get_poi_image_2_pre_match())
-        self.failUnlessEqual(None, match.get_poi_image_2_matched())
-        self.failIf(match.is_success())
-        self.failIf(match.has_matched())
-        self.failUnlessEqual(None, match.feature_match_result())
+        self.assertEqual(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET, match.get_status())
+        self.assertEqual(starting_point, match.get_poi_image_1())
+        self.assertEqual(starting_point + align_offset, match.get_poi_image_2_pre_match())
+        self.assertEqual(None, match.get_poi_image_2_matched())
+        self.assertFalse(match.is_success())
+        self.assertFalse(match.has_matched())
+        self.assertEqual(None, match.feature_match_result())
 
     def test_setting_feature_match_generates_poi_in_image_2_reference_space(self):
         starting_point = Point(4, 7)
@@ -51,10 +51,10 @@ class TestCrystalMatch(TestCase):
         mock_transform.transform_points.assert_called_once_with([starting_point])
 
         # Test status of the object after successful match
-        self.failUnless(match.is_success())
-        self.failUnless(match.has_matched())
-        self.failUnlessEqual(CRYSTAL_MATCH_STATUS_OK, match.get_status())
-        self.failUnlessEqual(mock_transformed_point, match.get_poi_image_2_matched())
+        self.assertTrue(match.is_success())
+        self.assertTrue(match.has_matched())
+        self.assertEqual(CRYSTAL_MATCH_STATUS_OK, match.get_status())
+        self.assertEqual(mock_transformed_point, match.get_poi_image_2_matched())
 
     def test_setting_failed_feature_match_results_in_fail_status(self):
         starting_point = Point(4, 7)
@@ -67,10 +67,10 @@ class TestCrystalMatch(TestCase):
         match.set_feature_match_result(mock_feature_match)
 
         # Test object status
-        self.failIf(match.is_success())
-        self.failUnless(match.has_matched())
-        self.failUnlessEqual(CRYSTAL_MATCH_STATUS_FAIL, match.get_status())
-        self.failUnlessEqual(None, match.get_poi_image_2_matched())
+        self.assertFalse(match.is_success())
+        self.assertTrue(match.has_matched())
+        self.assertEqual(CRYSTAL_MATCH_STATUS_FAIL, match.get_status())
+        self.assertEqual(None, match.get_poi_image_2_matched())
 
     def test_failed_match_returns_poi_with_alignment_transform_applied_and_delta_0(self):
         starting_point = Point(4, 7)
@@ -83,9 +83,9 @@ class TestCrystalMatch(TestCase):
 
         # Test the transformed POI and delta value
         expected_poi_image_2_pre_match = starting_point + align_offset
-        self.failIf(match.is_success())
-        self.failUnlessEqual(expected_poi_image_2_pre_match, match.get_transformed_poi())
-        self.failUnlessEqual(Point(0, 0), match.get_delta())
+        self.assertFalse(match.is_success())
+        self.assertEqual(expected_poi_image_2_pre_match, match.get_transformed_poi())
+        self.assertEqual(Point(0, 0), match.get_delta())
 
     def test_delta_value_is_translation_between_points_after_alignment(self):
         starting_point = Point(4, 7)
@@ -99,7 +99,7 @@ class TestCrystalMatch(TestCase):
 
         # Test delta value
         expected_offset = mock_transformed_point - align_offset - starting_point
-        self.failUnlessEqual(expected_offset, match.get_delta())
+        self.assertEqual(expected_offset, match.get_delta())
 
     def test_get_real_world_offset_for_points_of_interest(self):
         starting_point = Point(4, 7)
@@ -112,16 +112,16 @@ class TestCrystalMatch(TestCase):
         match.set_feature_match_result(mock_feature_match)
 
         # Test
-        self.failUnlessEqual(starting_point * resolution, match.get_poi_image_1_real())
-        self.failUnlessEqual(mock_transformed_point * resolution, match.get_poi_image_2_matched_real())
+        self.assertEqual(starting_point * resolution, match.get_poi_image_1_real())
+        self.assertEqual(mock_transformed_point * resolution, match.get_poi_image_2_matched_real())
         # self.fail()
 
     def test_crystal_match_status_print_format(self):
-        self.failUnlessEqual("code, status", str(CrystalMatchStatus("code", "status")))
-        self.failUnlessEqual("-1, NOT SET", str(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET))
-        self.failUnlessEqual("1, OK", str(CRYSTAL_MATCH_STATUS_OK))
-        self.failUnlessEqual("0, FAIL", str(CRYSTAL_MATCH_STATUS_FAIL))
-        self.failUnlessEqual("2, DISABLED", str(CRYSTAL_MATCH_STATUS_DISABLED))
+        self.assertEqual("code, status", str(CrystalMatchStatus("code", "status")))
+        self.assertEqual("-1, NOT SET", str(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET))
+        self.assertEqual("1, OK", str(CRYSTAL_MATCH_STATUS_OK))
+        self.assertEqual("0, FAIL", str(CRYSTAL_MATCH_STATUS_FAIL))
+        self.assertEqual("2, DISABLED", str(CRYSTAL_MATCH_STATUS_DISABLED))
 
     def test_crystal_match_status_default_status_is_enabled(self):
         starting_point = Point(4, 7)
@@ -129,7 +129,7 @@ class TestCrystalMatch(TestCase):
         resolution = 1.5
 
         match = self.mock_create_crystal_match(align_offset, resolution, starting_point)
-        self.failUnlessEqual(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET, match.get_status())
+        self.assertEqual(CRYSTAL_MATCH_STATUS_STATUS_NOT_SET, match.get_status())
 
     def test_crystal_match_status_can_be_set_to_disabled(self):
 
@@ -138,7 +138,7 @@ class TestCrystalMatch(TestCase):
         resolution = 1.5
 
         match = self.mock_create_crystal_match(align_offset, resolution, starting_point, perform_poi_match=False)
-        self.failUnlessEqual(CRYSTAL_MATCH_STATUS_DISABLED, match.get_status())
+        self.assertEqual(CRYSTAL_MATCH_STATUS_DISABLED, match.get_status())
 
     @staticmethod
     def mock_feature_match_result_failure():

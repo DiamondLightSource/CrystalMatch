@@ -18,26 +18,26 @@ class TestPointFFT(TestCase):
     def test_set_fft_sets_the_fft_value_correctly(self):
         self.assertIsNone(self.pointfft.fft_level)
         self.pointfft.setFFT(10)
-        self.assertEquals(self.pointfft.fft_level, 10)
+        self.assertEqual(self.pointfft.fft_level, 10)
 
     def test_getFFT_returns_the_fft_value_correctly(self):
         self.pointfft.setFFT(10)
-        self.assertEquals(self.pointfft.getFFT(), 10)
+        self.assertEqual(self.pointfft.getFFT(), 10)
 
     def test_crop_region_from_image_cuts_square_region_of_given_size(self):
         image = np.zeros((10, 10), dtype=np.float64)
         pointfft = PointFFT(Point(5,5), image, 2)
         region = pointfft.crop_region_from_image()
-        self.assertEquals(region.size, 4)
+        self.assertEqual(region.size, 4)
 
     def test_set_get_image_number_works_fine(self):
         image_number = 100
         self.pointfft.set_image_number(image_number)
-        self.assertEquals(self.pointfft.image_number, image_number)
-        self.assertEquals(self.pointfft.get_image_number(), image_number)
+        self.assertEqual(self.pointfft.image_number, image_number)
+        self.assertEqual(self.pointfft.get_image_number(), image_number)
 
     def test_set_get_image_name_works_fine(self):
         image_name = 'test_name'
         self.pointfft.set_image_name(image_name)
-        self.assertEquals(self.pointfft.image_name, image_name)
-        self.assertEquals(self.pointfft.get_image_name(), image_name)
+        self.assertEqual(self.pointfft.image_name, image_name)
+        self.assertEqual(self.pointfft.get_image_name(), image_name)

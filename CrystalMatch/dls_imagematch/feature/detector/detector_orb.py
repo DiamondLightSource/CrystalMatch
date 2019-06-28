@@ -1,8 +1,9 @@
 import cv2
 
-from CrystalMatch.dls_imagematch.feature.detector.types import DetectorType, ExtractorType
+from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
+from CrystalMatch.dls_imagematch.feature.detector.detector_types import DetectorType, ExtractorType
 from CrystalMatch.dls_imagematch.feature.detector.exception import FeatureDetectorError
-from CrystalMatch.dls_imagematch.feature.detector.detector import Detector, OPENCV_MAJOR
+from CrystalMatch.dls_imagematch.feature.detector.detector import Detector
 
 
 class OrbDetector(Detector):
@@ -137,11 +138,7 @@ class OrbDetector(Detector):
 
     # -------- FUNCTIONALITY -------------------
     def _create_detector(self):
-        if OPENCV_MAJOR == '2':
-            constructor = cv2.ORB
-        else:
-            # noinspection PyUnresolvedReferences
-            constructor = cv2.ORB_create
+        constructor = OpencvDetectorInterface().orb_constructor()
 
         detector = constructor(nfeatures=self._n_features,
                                scaleFactor=self._scale_factor,

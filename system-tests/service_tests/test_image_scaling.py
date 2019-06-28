@@ -23,11 +23,11 @@ class TestImageScaling(SystemTest):
 
         # Check the global transformation, status and error margin
         scale, x, y = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(scale, 0.5)
-        self.failUnlessEqual(x, 0)
-        self.failUnlessEqual(y, 0)
+        self.assertEqual(scale, 0.5)
+        self.assertEqual(x, 0)
+        self.assertEqual(y, 0)
         matches = self.regex_from_std_out('align_error:(.*)')
-        self.failUnlessEqual(1, len(matches))
+        self.assertEqual(1, len(matches))
         self.failUnlessStdOutContains('align_status:1, OK')
 
     @parameterized.expand([
@@ -43,11 +43,11 @@ class TestImageScaling(SystemTest):
 
         # Check the global transformation, status and error margin
         scale, x, y = self.get_global_transform_from_std_out()
-        self.failUnlessEqual(scale, 2.0)
-        self.failUnlessEqual(x, 0)
-        self.failUnlessEqual(y, 0)
+        self.assertEqual(scale, 2.0)
+        self.assertEqual(x, 0)
+        self.assertEqual(y, 0)
         matches = self.regex_from_std_out('align_error:(.*)')
-        self.failUnlessEqual(1, len(matches))
+        self.assertEqual(1, len(matches))
         self.failUnlessStdOutContains('align_status:1, OK')
 
     @parameterized.expand([
@@ -76,4 +76,4 @@ class TestImageScaling(SystemTest):
         self.run_crystal_matching_test(test_name, cmd_line)
 
         # Check Points of interest are found and reported at correct co-ordinates
-        self.failUnlessPoiAlmostEqual([[Point(756, 413), Point(2, 2), 1, 2.5]], deltas=(2, 2, 2))
+        self.failUnlessPoiAlmostEqual([[Point(757, 413), Point(2, 2), 1, 2.5]], deltas=(2.7, 2.1, 2))

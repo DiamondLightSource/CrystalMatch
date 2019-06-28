@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 
 from CrystalMatch.dls_imagematch import logconfig
+from CrystalMatch.dls_imagematch.feature.detector.opencv_detector_interface import OpencvDetectorInterface
 from CrystalMatch.dls_util.shape import Point
 from CrystalMatch.dls_imagematch.feature.transform.exception import TransformCalculationError
 from CrystalMatch.dls_imagematch.feature.transform.trs_affine import AffineTransformation
@@ -135,11 +136,11 @@ class TransformCalculator:
             image1_pts, image2_pts = self._get_np_points(matches)
             use_full = self._method == self.AFFINE_FULL
 
-            affine = cv2.estimateRigidTransform(image1_pts, image2_pts, fullAffine=use_full)
+            affine = OpencvDetectorInterface().estimate_rigid_transform(image1_pts, image2_pts, use_full)
 
             if affine is not None:
-                affine = np.array([affine[0], affine[1], [0, 0, 1]], np.float32)
-                transform = AffineTransformation(affine)
+                affine_array = OpencvDetectorInterface().affine_to_np_array(affine)
+                transform = AffineTransformation(affine_array)
 
         return transform, mask
 

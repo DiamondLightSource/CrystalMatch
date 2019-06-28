@@ -10,7 +10,8 @@ import logging.config
 import logging.handlers
 import getpass
 import threading
-import version
+
+from CrystalMatch.dls_imagematch import version
 
 MAXBYTES = 1048576
 BACKUPCOUNT = 20
