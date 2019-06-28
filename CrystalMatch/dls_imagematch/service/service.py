@@ -7,7 +7,7 @@ from CrystalMatch.dls_imagematch.crystal.align import AlignConfig
 from CrystalMatch.dls_imagematch.crystal.align import ImageAligner
 from CrystalMatch.dls_imagematch.crystal.align.aligned_images import ALIGNED_IMAGE_STATUS_OK
 from CrystalMatch.dls_imagematch.crystal.match import CrystalMatchConfig
-from CrystalMatch.dls_imagematch.crystal.match import CrystalMatcher
+from CrystalMatch.dls_imagematch.crystal.match.matcher import CrystalMatcher
 from CrystalMatch.dls_imagematch.crystal.match.match import CrystalMatchStatus
 from CrystalMatch.dls_imagematch.feature.detector import DetectorConfig
 from CrystalMatch.dls_imagematch.service.service_result import ServiceResult
