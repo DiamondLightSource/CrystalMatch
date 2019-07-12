@@ -15,12 +15,12 @@ class TestCommandLineFlags(SystemTest):
     def test_version_flag_displays_version_number(self):
         cmd_line = "--version"
         self.run_crystal_matching_test(self.test_version_flag_displays_version_number.__name__, cmd_line)
-
+        expr = "[0-9]+[.][0-9]+[.][0-9]+"
         # Check for version flag on stdout
         if sys.version_info[0] < 3: # change in ArgumentParser affecting version python3
-            self.failUnlessStdErrContainsRegex("[0-9]+[.][0-9]+[.][0-9]+")
+            self.failUnlessStdErrContainsRegex(expr)
         else:
-            self.failUnlessStdOutContainsRegex("[0-9]+[.][0-9]+[.][0-9]+")
+            self.failUnlessStdOutContainsRegex(expr)
 
     def test_json_flag_prints_json_to_console(self):
         cmd_line = "--to_json {resources}/A01_1.jpg {resources}/A01_2.jpg"

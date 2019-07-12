@@ -72,10 +72,7 @@ class CrystalMatch:
                 service_result.append_crystal_matching_results(match_results)
 
         except Exception as e:
-            if sys.version_info[0] < 3:
-                log.error("ERROR: " + e.message)
-            else:
-                log.error("ERROR: " + str(e))
+            log.error("ERROR: " + str(e))
             service_result.set_err_state(e)
 
         return service_result

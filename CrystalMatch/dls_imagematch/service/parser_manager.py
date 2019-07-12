@@ -40,19 +40,11 @@ class ParserManager:
             description="Run Crystal Matching algorithm attempting to translate co-ordinates "
                         "on an input image to the coordinate-space of an output image while "
                         "accounting for possible movement of crystals in the sample.")
-
-        if sys.version_info[0] < 3:
-            parser.add_argument('Formulatrix_image',
+        parser.add_argument('Formulatrix_image',
                             metavar="Formulatrix_image_path",
-                            type=file,
+                            type=argparse.FileType('r'),
                             help='Image file from the Formulatrix - selected_point should correspond to co-ordinates on '
                                  'this image.')
-        else:
-            parser.add_argument('Formulatrix_image',
-                                metavar="Formulatrix_image_path",
-                                type=argparse.FileType('r'),
-                                help='Image file from the Formulatrix - selected_point should correspond to co-ordinates on '
-                                     'this image.')
         parser.add_argument('beamline_stack_path',
                             metavar="beamline_stack_path",
                             help="A path pointing at a directory which stores images to be stacked or a path to a stacked image.")

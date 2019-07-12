@@ -43,10 +43,7 @@ class TestPoint(TestCase):
         # Note: the rouding convetion has been changed in Python3 - half are rounded down!!
         # 0.5 becomes 0 not one
         # see: https://stackoverflow.com/questions/10825926/python-3-x-rounding-behavior
-        if sys.version_info[0] < 3:
-            self.assertEqual(b.y, 89)
-        else:
-            self.assertEqual(b.y, 88)
+        self.assertEqual(b.y, 88)
 
     def test_clone_and_convert_to_float_using_floatify(self):
         a = Point(int(35), int(44))

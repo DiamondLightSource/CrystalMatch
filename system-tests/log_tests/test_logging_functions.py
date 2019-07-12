@@ -23,6 +23,7 @@ class TestLoggingFunctions(SystemTest):
         self.failIfDirExists(join(self.get_active_test_dir(), "logs"))
         log_dir = join(self.get_active_test_dir(), "test", "logging", "flag")
         #log_image_dir = join(log_dir, "images")
+        # logs are now only kept next to the image debug.log is not created anymore
         self.failUnlessDirContainsFile(log_dir, "log")
         #self._verify_logged_image_files(log_image_dir, self.get_poi_from_std_out())
 

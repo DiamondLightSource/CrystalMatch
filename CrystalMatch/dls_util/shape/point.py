@@ -1,6 +1,8 @@
 from __future__ import division
 
+import decimal
 import math
+import sys
 
 
 class Point:
@@ -70,7 +72,13 @@ class Point:
     def intify(self):
         """ Return a new point which is the same as this but with (rounded) integer coordinates. """
         # rounding behaviour changed from python2 to python3
-        return Point(int(round(self.x, 0)), int(round(self.y, 0)))
+        if sys.version_info[0] < 3: # old rounding to behave like new
+            return Point(int(self.py3round(self.x)), int(self.py3round(self.y)))
+        else:
+            return Point(int(round(self.x, 0)), int(round(self.y, 0)))
+
+    def py3round(self, value):
+        return int(decimal.Decimal(value)._rescale(0, decimal.ROUND_HALF_EVEN))
 
     def floatify(self):
         """ Return a new point which is the same as this but with float coordinates. """
