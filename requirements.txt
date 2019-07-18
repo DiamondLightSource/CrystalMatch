@@ -2,4 +2,4 @@ numpy>=1.11.1
 scipy>=0.19.1
 pygelf>=0.3.1
 mock>=1.0.1
-parameterized
+opencv-python
