@@ -54,7 +54,6 @@ Using the Source Code - Windows
     * scipy>=0.19.1
     * pygelf>=0.3.1
     * mock>=1.0.1 (Testing only - standard in Python v3.3+ but required for unit tests to run under v2.7)
-    * parameterized (Testing only)
     
 * Most of these packages can be installed using `pip`. To do this:
     * Open cmd.exe (being sure to ‘Run as Administrator’)
