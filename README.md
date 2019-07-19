@@ -8,10 +8,7 @@ VMXi Crystal Image Matching Readme
 
 Installation
 ---------
-CrystalMatch requires python 2.7 and openCV version 2.4.10 which can be downloaded from:
-* [OpenCV](https://opencv.org/releases.html)
-
-Once OpenCV is there CrystalMatch can be installed by running:
+This version of CrystalMatch uses python 3.7.
 
 ```
 pip install CrystalMatch
