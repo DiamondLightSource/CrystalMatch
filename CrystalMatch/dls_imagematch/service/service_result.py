@@ -46,7 +46,7 @@ class ServiceResultExitCode(StatusFlag):
 # Status values
 SERVICE_RESULT_STATUS_INCOMPLETE = ServiceResultExitCode(-1, "EXITED EARLY")
 SERVICE_RESULT_STATUS_COMPLETE = ServiceResultExitCode(0, "COMPLETE")
-SERVICE_RESULT_STATUS_ERROR = ServiceResultExitCode(-1, "ERROR")
+SERVICE_RESULT_STATUS_ERROR = ServiceResultExitCode(1, "ERROR")
 
 
 class DecimalEncoder(JSONEncoder):

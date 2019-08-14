@@ -58,22 +58,22 @@ class CrystalMatch:
 
         # Create results object
         service_result = ServiceResult(job_id, formulatrix_image_path, focused_image_path)
+        if not parser_manager.get_run_focus_only():
+            # Perform alignment
+            try:
 
-        # Perform alignment
-        try:
+                aligned_images, scaled_poi = self._perform_alignment(image1, image2, input_poi)
+                service_result.set_image_alignment_results(aligned_images)
 
-            aligned_images, scaled_poi = self._perform_alignment(image1, image2, input_poi)
-            service_result.set_image_alignment_results(aligned_images)
+                # Perform Crystal Matching - only proceed if we have a valid alignment
+                if aligned_images.alignment_status_code() == ALIGNED_IMAGE_STATUS_OK:
+                    match_results = self._perform_matching(aligned_images, scaled_poi, parser_manager)
 
-            # Perform Crystal Matching - only proceed if we have a valid alignment
-            if aligned_images.alignment_status_code() == ALIGNED_IMAGE_STATUS_OK:
-                match_results = self._perform_matching(aligned_images, scaled_poi, parser_manager)
+                    service_result.append_crystal_matching_results(match_results)
 
-                service_result.append_crystal_matching_results(match_results)
-
-        except Exception as e:
-            log.error("ERROR: " + str(e))
-            service_result.set_err_state(e)
+            except Exception as e:
+                log.error("ERROR: " + str(e))
+                service_result.set_err_state(e)
 
         return service_result
 

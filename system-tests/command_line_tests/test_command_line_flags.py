@@ -57,3 +57,10 @@ class TestCommandLineFlags(SystemTest):
         self.run_crystal_matching_test(
             self.test_processed_file_is_stored_in_directory_specified_by_shortcut_output_flag.__name__, cmd_line)
         self.failUnlessDirContainsFile(join(self.get_active_test_dir(), 'pro'), 'processed.tif')
+
+    def test_get_run_focus_only_runs_focus_but_doesnt_run_alignment(self):
+        cmd_line = "-o pro -j test_case {resources}/stacking/ideal.tif {resources}/stacking/levels --run_focus_only"
+        self.run_crystal_matching_test(
+            self.test_get_run_focus_only_runs_focus_but_doesnt_run_alignment.__name__, cmd_line)
+        self.failUnlessDirContainsFile(join(self.get_active_test_dir(), 'pro'), 'processed.tif')
+        self.failUnlessStdOutContains('exit_code:-1') #incoplete

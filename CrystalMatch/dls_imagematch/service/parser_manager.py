@@ -81,6 +81,9 @@ class ParserManager:
         parser.add_argument('--log',
                             metavar="path",
                             help="Write log files to the directory specified by path.")
+        parser.add_argument('--run_focus_only',
+                            action='store_true',#???
+                            help="Run the focusing routing only")
         self.parser = parser
 
     def get_args(self):
@@ -263,3 +266,6 @@ class ParserManager:
                 makedirs(new_path)
 
         return new_path
+
+    def get_run_focus_only(self):
+        return self.get_args().run_focus_only

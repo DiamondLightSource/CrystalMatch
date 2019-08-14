@@ -235,3 +235,13 @@ class TestParserManager(unittest.TestCase):
         self.assertTrue(".CrystalMatch" in config_dir)
         default_config_dir = abspath(join(pm.get_script_path(), 'config'))
         self.assertEqual(config_dir, default_config_dir)
+
+    def test_get_run_focus_only_returns_false_if_the_argument_is_false(self):
+        self.pm.get_args = Mock(return_value=Mock(run_focus_only=False))
+        self.assertFalse(self.pm.get_run_focus_only())
+
+    def test_get_run_focus_only_returns_true_if_the_argument_is_true(self):
+        self.pm.get_args = Mock(return_value=Mock(run_focus_only=True))
+        self.assertTrue(self.pm.get_run_focus_only())
+
+

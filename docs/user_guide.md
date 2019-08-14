@@ -94,7 +94,7 @@ CrystalMatch outputs results in a human-readable format by default - when being 
 * `input_image` - Absolute path to Formulatrix Image.
 * `output_image` - Absolute path to Beamline Image or set of images to be stacked.
 * `exit_code` - Describes the exit status of the application, used to flag abnormal runs while returning some results if possible.
-    * `code` - Exit status - `0` for success or `1` for failure - **note:** not to be confused with status code (see later).
+    * `code` - Exit status - `0` for success or `1` for failure or `-1` for exited early - **note:** not to be confused with status code (see later).
     * `msg` - Human-readable error message.
 * `alignment` - Alignment phase results.
     * `status` - Alignment status.
@@ -132,3 +132,4 @@ CrystalMatch outputs results in a human-readable format by default - when being 
 | `--to_json`       | Output results as a JSON object. |
 | `--log path`      | Write log files to the directory specified by path. |
 | `-o path --output path`|Sets the directory to store the stacked image called 'processed.tif'. Log directory is used by default.|
+| `--run_focus_only`| Run the focusing routing only, results in exit code `-1 (exited early)`  |
