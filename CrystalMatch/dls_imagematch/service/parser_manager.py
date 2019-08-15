@@ -5,19 +5,18 @@ require("scipy>=0.19.1")
 import argparse
 import logging
 import re
-import cv2
-from os.path import split, exists, isdir, isfile, join, abspath, getmtime, dirname, expanduser
 
-from os import listdir, makedirs, chmod, close
+from os.path import  exists, isdir, isfile, join, abspath, expanduser
+
+from os import makedirs, chmod, listdir
 import sys
 
-from CrystalMatch.dls_focusstack.focus.focus_stack_lap_pyramid import FocusStack
+
 from CrystalMatch.dls_imagematch import logconfig
 from CrystalMatch.dls_imagematch.service import readable_config_dir
 from CrystalMatch.dls_imagematch.version import VersionHandler
 from CrystalMatch.dls_imagematch.service.readable_config_dir import ReadableConfigDir
 from CrystalMatch.dls_util.shape import Point
-from CrystalMatch.dls_util.imaging import Image
 
 class ParserManager:
 
@@ -29,7 +28,6 @@ class ParserManager:
 
     def __init__(self):
         self.parser = None
-        self.images_to_stack = None
         self._script_path = None
 
     def build_parser(self):
@@ -82,7 +80,7 @@ class ParserManager:
                             metavar="path",
                             help="Write log files to the directory specified by path.")
         parser.add_argument('--run_focus_only',
-                            action='store_true',#???
+                            action='store_true',
                             help="Run the focusing routing only")
         self.parser = parser
 
@@ -142,21 +140,14 @@ class ParserManager:
                     log.warning("Selected point with invalid format will be ignored - '" + point_string + "'")
         return selected_points
 
-    def get_focused_image(self):
-        focusing_path = abspath(self.get_args().beamline_stack_path)
+    def _get_path_to_beamliene_stack_or_image(self): #returns file or folder
+        return abspath(self.get_args().beamline_stack_path)
+
+    def stack_of_images_passed(self):
+        focusing_path = self._get_path_to_beamliene_stack_or_image()
         if "." not in focusing_path:
-            files = self._sort_files_according_to_names(focusing_path)
-            # Run focusstack
-            stacker = FocusStack(files, self.get_args().config)
-            focused_image = stacker.composite()
-
-            self.images_to_stack = stacker.get_fft_images_to_stack()
-        else:
-            focused_image = Image(cv2.imread(focusing_path))
-        return focused_image
-
-    def get_fft_images_to_stack(self):
-        return self.images_to_stack
+            return True
+        return False
 
     def get_formulatrix_image_path(self):
         path = self.get_args().Formulatrix_image.name
@@ -172,23 +163,14 @@ class ParserManager:
     # returns an error if the focused image is not saved
     # may want to change this for saving done later
     def get_focused_image_path(self):
-        focusing_path = abspath(self.get_args().beamline_stack_path)
-        if "." not in focusing_path:
-            focusing_path =  self.get_out_file_path()
+        if self.stack_of_images_passed():
+            dir_path = self._get_output_dir()
+            self._check_make_dirs(dir_path)
+            focusing_path = join(dir_path, self.FOCUSED_IMAGE_NAME)
+        else:
+            focusing_path = self._get_path_to_beamliene_stack_or_image() # should be a file in this case
         self._check_is_file(focusing_path)
         return abspath(focusing_path)
-
-    def save_focused_image(self, image):
-        image.save(self.get_out_file_path())
-
-    def get_out_file_path(self):
-        """
-         Get the path to the output file based on the contents of the config file and the location of the configuration dir.
-         :return: A string representing the file path of the log file.
-         """
-        dir_path = self._get_output_dir()
-        self._check_make_dirs(dir_path)
-        return join(dir_path, self.FOCUSED_IMAGE_NAME)
 
     def get_log_file_path(self):
         """
@@ -235,8 +217,8 @@ class ParserManager:
             log.error("Could not find the file, file may not been saved: " + path)
             exit(1)
 
-    @staticmethod
-    def _sort_files_according_to_names(focusing_path):
+    def _sort_files_according_to_names(self):
+        focusing_path = self._get_path_to_beamliene_stack_or_image()
         files = []
         file_names = listdir(focusing_path)
         if sys.version_info[0] < 3:

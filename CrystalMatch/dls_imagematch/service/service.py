@@ -1,7 +1,8 @@
 import logging
-import sys
 import time
+import cv2
 
+from CrystalMatch.dls_focusstack.focus.focus_stack_lap_pyramid import FocusStack
 from CrystalMatch.dls_imagematch import logconfig
 from CrystalMatch.dls_imagematch.crystal.align import AlignConfig
 from CrystalMatch.dls_imagematch.crystal.align import ImageAligner
@@ -30,6 +31,26 @@ class CrystalMatch:
         self._config_detector = DetectorConfig(config_directory)
         self._config_align = AlignConfig(config_directory, scale_override=scale_override)
         self._config_crystal = CrystalMatchConfig(config_directory)
+        self._images_to_stack = None
+        self._best_fft_image_name = ""
+
+    def _get_fft_images_to_stack(self):
+        return self._images_to_stack
+
+    def _get_focused_image(self, parser_manager):
+        if parser_manager.stack_of_images_passed():
+            files = parser_manager._sort_files_according_to_names()
+            stacker = FocusStack(files, parser_manager.get_config_dir())
+            focused_image = stacker.composite()
+            self._images_to_stack = stacker.get_fft_images_to_stack()
+            self._best_fft_image_name = stacker.get_best_fft_image().get_image_name()
+        else:
+            focused_image = Image(cv2.imread(parser_manager.get_focused_image_path()))
+
+        return focused_image
+
+    def _save_focused_image(self, image, parser_manager):
+        image.save(parser_manager.get_focused_image_path())
 
     def perform_match(self, parser_manager):
         """
@@ -46,8 +67,8 @@ class CrystalMatch:
         log.debug(extra)
 
         input_poi = parser_manager.parse_selected_points_from_args()
-        beamline_image = parser_manager.get_focused_image()
-        parser_manager.save_focused_image(beamline_image)
+        beamline_image = self._get_focused_image(parser_manager)
+        self._save_focused_image(beamline_image, parser_manager)
         focused_image_path = parser_manager.get_focused_image_path()
         formulatrix_image_path = parser_manager.get_formulatrix_image_path()
         job_id = parser_manager.get_job_id()
@@ -57,7 +78,7 @@ class CrystalMatch:
         image2 = beamline_image
 
         # Create results object
-        service_result = ServiceResult(job_id, formulatrix_image_path, focused_image_path)
+        service_result = ServiceResult(job_id, formulatrix_image_path, focused_image_path, self._best_fft_image_name)
         if not parser_manager.get_run_focus_only():
             # Perform alignment
             try:
@@ -98,7 +119,7 @@ class CrystalMatch:
 
         time_start = time.time()
         matcher = CrystalMatcher(aligned_images, self._config_detector)
-        matcher.set_fft_images_to_stack(parser_manager.get_fft_images_to_stack())
+        matcher.set_fft_images_to_stack(self._get_fft_images_to_stack())
         matcher.set_from_crystal_config(self._config_crystal)
 
         crystal_match_results = matcher.match(selected_points)

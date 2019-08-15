@@ -93,6 +93,7 @@ CrystalMatch outputs results in a human-readable format by default - when being 
 * `job_id` - job id.
 * `input_image` - Absolute path to Formulatrix Image.
 * `output_image` - Absolute path to Beamline Image or set of images to be stacked.
+* `best_fft_image` - Absolute path to the most in focus Beamline Image.
 * `exit_code` - Describes the exit status of the application, used to flag abnormal runs while returning some results if possible.
     * `code` - Exit status - `0` for success or `1` for failure or `-1` for exited early - **note:** not to be confused with status code (see later).
     * `msg` - Human-readable error message.

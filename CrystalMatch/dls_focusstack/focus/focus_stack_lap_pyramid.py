@@ -21,6 +21,7 @@ class FocusStack:
         self._image_file_list = images
         self._config = FocusConfig(abspath(join(abspath(config_dir), self.CONFIG_FILE_NAME)))
         self.fft_images = None
+        self.best_fft_image = None
 
 
     def composite(self):
@@ -40,6 +41,7 @@ class FocusStack:
 
         images = sd.images_to_stack()
         self.fft_images = sd.get_fft_images_to_stack()
+        self.best_fft_image = sd.get_best_fft_image()
 
         t2 = time.time() - t1
 
@@ -70,6 +72,8 @@ class FocusStack:
     def get_fft_images_to_stack(self):
         return self.fft_images
 
+    def get_best_fft_image(self):
+        return self.best_fft_image
 
 
 

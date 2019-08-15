@@ -12,6 +12,7 @@ class SharpnessDetector(object):
         self.fft_img = img_fft
         self.config = config
         self.fft_images_to_stack = []
+        self.best_fft_image = None
 
     def images_to_stack(self):
         """Function which finds the maximum of mean FFT values provided.
@@ -28,6 +29,7 @@ class SharpnessDetector(object):
         max_fft_value_index = ffts.index(max_fft_value)
         best_fft_img = self.fft_img[max_fft_value_index] # the sequence of images is the same as the sequence of ffts
         best_fft_img_num = best_fft_img.get_image_number()
+        self.best_fft_image  = best_fft_img
         log.info("Best score was %f for %s" % (max_fft_value, best_fft_img.name))
         range = self.find_range(best_fft_img_num)
 
@@ -47,6 +49,9 @@ class SharpnessDetector(object):
 
     def get_fft_images_to_stack(self):
         return self.fft_images_to_stack
+
+    def get_best_fft_image(self):
+        return self.best_fft_image
 
     def find_range(self, max):
         """Function which defines the range of images to stack."""

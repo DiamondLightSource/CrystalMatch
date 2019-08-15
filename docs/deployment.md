@@ -42,17 +42,17 @@ The external release procedure is not required and does not affect the internal 
     ```
 6. Create a new release on github and add the whl and tar.gz files - the release will be tagged
 7. Do internal release for dls-python:
-    1. Add a tag with - instead of . in the version and push ot to gitlab_new, for example:
+    1. Push the changes and add a tag:
     ```
-    git tag 1-0-0
-    git push gitlab_new 1-0-0
+    git push gitlab-python3 python3
+    git tag -a 2.0.0 -m "Release 2.0.0"
+    git push gitlab-python3 2.0.0
     ```
     2. Run release script, wait for the build to finish and configure the path:
     ```
-    module load dls_ade
-    dls-release.py -p -t CrystalMatch 1-0-0 (consider releasing a test version of the module first dls-release with -T)
+    dls-release.py --python3 -r 7 -e R3.14.12.7 CrystalMatch 2.0.0
     dls-last-release.sh -w
-    configure-tool edit -p CrystalMatch 1-0-0
+    configure-ioc edit python3 CrystalMatch 2.0.0
     ```
     3. Test the released script:
     ```

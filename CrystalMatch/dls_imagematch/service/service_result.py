@@ -7,7 +7,7 @@ import logging
 import json
 from json.encoder import JSONEncoder
 
-from os.path import abspath, join, exists, isdir, splitext, split
+from os.path import abspath
 
 from CrystalMatch.dls_imagematch import logconfig
 from CrystalMatch.dls_imagematch.crystal.align.aligned_images import ALIGNED_IMAGE_STATUS_NOT_SET
@@ -67,7 +67,7 @@ class ServiceResult:
 
     POI_RESULTS_HEADER = "\nlocation ; transform ; status ; mean error"
 
-    def __init__(self, job_id, formulatrix_image_path, focused_image_path):
+    def __init__(self, job_id, formulatrix_image_path, focused_image_path, best_fft):
         """
         Create a ServiceResult object used to report CrystalMatch results to the console, log file and (optionally)
         image directory.
@@ -78,6 +78,7 @@ class ServiceResult:
         self.SEPARATOR = " ; "
         self._image_path_formulatrix = abspath(formulatrix_image_path)
         self._image_path_beamline = abspath(focused_image_path)
+        self._best_fft_image_name = best_fft
         self._alignment_transform_scale = 1.0
         self._alignment_transform_offset = Point(0, 0)
         self._alignment_status_code = ALIGNED_IMAGE_STATUS_NOT_SET
@@ -152,6 +153,7 @@ class ServiceResult:
         output += ['exit_code:' + str(self._exit_code),
                    'input_image:"' + self._image_path_formulatrix + '"',
                    'output_image:"' + self._image_path_beamline + '"',
+                   'best_fft_image:"'+ self._best_fft_image_name + '"',
                    'align_transform:' + self._get_printable_alignment_transform(),
                    'align_status:' + str(self._alignment_status_code),
                    'align_error:' + str(self._alignment_error)
@@ -173,6 +175,7 @@ class ServiceResult:
             output_obj['job_id'] = str(self._job_id)
         output_obj['input_image'] = self._image_path_formulatrix
         output_obj['output_image'] = self._image_path_beamline
+        output_obj['best_fft_image'] = self._best_fft_image_name
         output_obj['alignment'] = {
             'status': self._alignment_status_code.to_json_array(),
             'mean_error': self._alignment_error,
@@ -211,6 +214,7 @@ class ServiceResult:
         extra = self._exit_code.to_json_array_with_names('exit_code_num', 'exit_code')
         extra.update({'input_image': self._image_path_formulatrix,
                       'output_image': self._image_path_beamline,
+                      'best_fft_image': self._best_fft_image_name,
                       'total_time': total_time})
         if self._job_id and self._job_id != "":
             extra.update({'job_id': self._job_id})
